@@ -1,0 +1,152 @@
+package net.natroutter.purgatory.handlers;
+
+import net.natroutter.natlibs.objects.BasePlayer;
+import net.natroutter.purgatory.Purgatory;
+import net.natroutter.purgatory.features.BanChecker;
+import net.natroutter.purgatory.features.shop.ShopGUI;
+import net.natroutter.purgatory.objects.BanData;
+import net.natroutter.purgatory.utilities.Config;
+import net.natroutter.purgatory.utilities.Lang;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Villager;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
+
+import java.util.*;
+
+public class NpcHandler implements Listener {
+
+    private final static Config config = Purgatory.getCfg();
+    private final static Lang lang = Purgatory.getLang();
+    private static HashMap<UUID, Villager> npcs = new HashMap<>();
+
+    int cooldown = 3;
+    public static HashMap<UUID, Long> cooldowns = new HashMap<>();
+
+    private static Villager shop;
+
+    public static void spawnAll() {
+        Location shopLoc = new Location(Bukkit.getWorld(config.Npcs.Shop_loc_world), config.Npcs.Shop_loc_x, config.Npcs.Shop_loc_y, config.Npcs.Shop_loc_z);
+        shop = spawn(shopLoc, lang.shop.npc_name, Villager.Type.SAVANNA, Villager.Profession.WEAPONSMITH);
+    }
+
+    public static void despawnAll() {
+        for (Map.Entry<UUID, Villager> ents : npcs.entrySet()) {
+            despawn(ents.getKey());
+        }
+    }
+
+    public static void refresh() {
+        despawnAll();spawnAll();
+    }
+
+    public static boolean isNpc(UUID id) {
+        return npcs.containsKey(id);
+    }
+
+    public static Villager spawn(Location loc, String name, Villager.Type type, Villager.Profession prof) {
+        if (loc == null) {return null;}
+        if (loc.getWorld() == null) {return null;}
+        Villager ent = (Villager)loc.getWorld().spawnEntity(loc, EntityType.VILLAGER);
+        ent.setVillagerLevel(5);
+        ent.setVillagerType(type);
+        ent.setProfession(prof);
+        ent.setGravity(false);
+        ent.setAI(false);
+        ent.setSilent(true);
+        ent.setCustomNameVisible(true);
+        ent.setCustomName(name);
+        npcs.put(ent.getUniqueId(), ent);
+        return ent;
+    }
+
+    public static void despawn(UUID id) {
+        Villager ent = npcs.getOrDefault(id, null);
+        if (ent != null) {
+            if (ent.isValid()) {
+                ent.remove();
+            } else {
+                if (ent == null) {return;}
+                Collection<Entity> ents = ent.getWorld().getNearbyEntities(ent.getLocation(), 3, 3, 3);
+                for (Entity e : ents) {
+                    if (e.getType().equals(EntityType.VILLAGER)) {
+                        if (e.isCustomNameVisible()) {
+                            e.remove();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onInteract(PlayerInteractEntityEvent e) {
+        Entity ent = e.getRightClicked();
+        BasePlayer p = BasePlayer.from(e.getPlayer());
+        if (ent instanceof Villager) {
+            if (isNpc(ent.getUniqueId())) {
+                e.setCancelled(true);
+
+                if (cooldowns.containsKey(p.getUniqueId())) {
+                    long seconds = ((cooldowns.get(p.getUniqueId())/1000)+cooldown) - (System.currentTimeMillis()/1000);
+                    if (seconds > 0) {
+                        p.sendMessage(lang.prefix + lang.ShopOpenCooldown);
+                        return;
+                    }
+                }
+                cooldowns.put(p.getUniqueId(), System.currentTimeMillis());
+
+                if (ent.getUniqueId().equals(shop.getUniqueId())) {
+                    BanChecker.update(p);
+                    BanData data = BanChecker.check(p);
+                    if (data != null) {
+
+                        ShopGUI.show(p);
+
+                    } else {
+                        p.sendMessage(lang.prefix + lang.bannedOnly);
+                    }
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onMove(PlayerMoveEvent e) {
+        BasePlayer p = BasePlayer.from(e.getPlayer());
+        for (Entity ent : p.getNearbyEntities(5, 5, 5)) {
+
+            if (!ent.getType().equals(EntityType.VILLAGER)) { continue; }
+            if (!ent.isCustomNameVisible()) { continue; }
+            if (!isNpc(ent.getUniqueId())) { continue; }
+
+            ent.teleport(ent.getLocation().setDirection(p.getLocation().subtract(ent.getLocation()).toVector()));
+        }
+    }
+
+    @EventHandler
+    public void onDamageByEntity(EntityDamageByEntityEvent e) {
+        if (e.getEntity() instanceof Villager) {
+            if (npcs.containsKey(e.getEntity().getUniqueId())) {
+                e.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onDamage(EntityDamageEvent e) {
+        if (e.getEntity() instanceof Villager) {
+            if (npcs.containsKey(e.getEntity().getUniqueId())) {
+                e.setCancelled(true);
+            }
+        }
+    }
+
+}

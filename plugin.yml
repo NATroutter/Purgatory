@@ -1,0 +1,6 @@
+main: net.natroutter.purgatory.Purgatory
+name: Purgatory
+version: 1.0.0
+author: NATroutter
+description: Gamemode for banned players
+api-version: 1.16
