@@ -3,6 +3,7 @@ package net.natroutter.purgatory.handlers;
 import net.natroutter.natlibs.objects.BasePlayer;
 import net.natroutter.purgatory.Purgatory;
 import net.natroutter.purgatory.features.BanChecker;
+import net.natroutter.purgatory.features.Spectator.SpectatorHandler;
 import net.natroutter.purgatory.features.shop.ShopGUI;
 import net.natroutter.purgatory.objects.BanData;
 import net.natroutter.purgatory.utilities.Config;
@@ -104,17 +105,23 @@ public class NpcHandler implements Listener {
                 cooldowns.put(p.getUniqueId(), System.currentTimeMillis());
 
                 if (ent.getUniqueId().equals(shop.getUniqueId())) {
-                    BanChecker.update(p);
-                    BanData data = BanChecker.check(p);
-                    if (data != null) {
-
-                        ShopGUI.show(p);
-
-                    } else {
-                        p.sendMessage(lang.prefix + lang.bannedOnly);
-                    }
+                    openShop(p);
                 }
             }
+        }
+    }
+
+    private void openShop(BasePlayer p) {
+        if (!SpectatorHandler.isSpectator(p)) {
+            BanChecker.update(p);
+            BanData data = BanChecker.check(p);
+            if (data != null) {
+                ShopGUI.show(p);
+            } else {
+                p.sendMessage(lang.prefix + lang.bannedOnly);
+            }
+        } else {
+            p.sendMessage(lang.prefix + lang.SpectatorNotAllowed);
         }
     }
 

@@ -13,7 +13,8 @@ public class Lang {
     public String noPerm = "§7You do not have permission to do this";
     public String InvalidArgs = "§7Invalid command arguments";
     public String ToomanyArgs = "§7Too many command arguments";
-    public String bannedOnly = "§7You cant use this because you are not banned";
+    public String bannedOnly = "§7You can\u0027t use this because you are not banned";
+    public String notBannedOnly = "§7You can\u0027t use this because you are banned";
     public String NotEnoughItems = "§7You don\u0027t have enough items in your inventory!";
     public String YouSold = "§7You sold §c{amount}§7x §c{item} §7for §c{price}";
     public String NotEnoughMoney = "§7You don\u0027t have enough money!";
@@ -30,6 +31,15 @@ public class Lang {
     public String FailedToAlterBalance = "§7Failed to alter balance!";
     public String ShopOpenCooldown = "§7I\u0027m busy right now...";
     public String NotBanned = "§7You are not banned!";
+    public String SpectatorNotAllowed = "§7You can\u0027t do that while spectating!";
+    public String SpectateSwitchCooldown = "§7You can\u0027t switch spectator mode so quickly wait {cooldown}!";
+    public String SpectatorModeToggled = "§7Spectator mode: §c{status}";
+
+    public statues statues = new statues();
+    public static class statues {
+        public String enable = "Enabled";
+        public String disable = "Disabled";
+    }
 
     public List<String> NotBanned_lore = new ArrayList<String>() {{
         add("§7You are not banned!");

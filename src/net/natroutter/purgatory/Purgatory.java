@@ -3,6 +3,10 @@ package net.natroutter.purgatory;
 import net.natroutter.natlibs.NATLibs;
 import net.natroutter.natlibs.handlers.EventManager;
 import net.natroutter.natlibs.handlers.FileManager;
+import net.natroutter.natlibs.utilities.Utilities;
+import net.natroutter.purgatory.commands.Spectator;
+import net.natroutter.purgatory.features.Spectator.SpectatorHandler;
+import net.natroutter.purgatory.features.Spectator.SpectatorEvents;
 import net.natroutter.purgatory.handlers.LitebansHandler;
 import net.natroutter.purgatory.handlers.NpcHandler;
 import net.natroutter.purgatory.commands.PurgatoryCMD;
@@ -19,11 +23,13 @@ public class Purgatory extends JavaPlugin {
     private static Lang lang;
     private static LitebansHandler lbh;
     private static Database database;
+    private static Utilities utilities;
 
     public static Config getCfg() { return config; }
     public static Lang getLang() { return lang; }
     public static LitebansHandler getLitebans() {return lbh;}
     public static Database getDatabase() {return database;}
+    public static Utilities getUtilities() {return utilities;}
 
     @Override
     public void onEnable() {
@@ -40,17 +46,24 @@ public class Purgatory extends JavaPlugin {
 
         //Create litebans handler
         lbh = new LitebansHandler(this, config);
-
         database = new Database(this, config);
+        utilities = new Utilities(this);
 
         //Create event manager
         EventManager evm = new EventManager(this);
 
         //register listeners
-        evm.RegisterListeners(BanChecker.class, NpcHandler.class);
+        evm.RegisterListeners(
+                BanChecker.class,
+                NpcHandler.class,
+                SpectatorEvents.class
+        );
 
         //register commands
-        evm.RegisterCommands(PurgatoryCMD.class);
+        evm.RegisterCommands(
+                PurgatoryCMD.class,
+                Spectator.class
+        );
 
         NpcHandler.spawnAll();
 

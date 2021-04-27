@@ -157,7 +157,6 @@ public class PurgatoryCMD extends Command {
 
     List<String> empty = Collections.singletonList("");
 
-    //  /purgatory eco give natroutter 100
 
     @Override
     public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {

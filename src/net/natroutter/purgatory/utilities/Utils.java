@@ -67,15 +67,15 @@ public class Utils {
         if (days < 1) {
             if (hours < 1) {
                 if (minutes < 1) {
-                    left = hi + seconds + " " + te + sec_T + hi;
+                    left = hi + seconds + " " + te + sec_T;
                 } else {
-                    left = hi + minutes + " " + te + min_T + hi + " " + seconds + " " + te + sec_T + hi;
+                    left = hi + minutes + " " + te + min_T + hi + " " + seconds + " " + te + sec_T;
                 }
             } else {
-                left = hi + hours + " " + te + hour_T + hi + " " + minutes + " " + te + min_T + hi + " " + seconds + " " + te + sec_T + hi;
+                left = hi + hours + " " + te + hour_T + hi + " " + minutes + " " + te + min_T + hi + " " + seconds + " " + te + sec_T;
             }
         } else {
-            left = hi + days + " " + te + day_T + hi + " " + hours + " " + te + hour_T + hi + " " + minutes + " " + te + min_T + hi + " " + seconds + " " + te + sec_T + hi;
+            left = hi + days + " " + te + day_T + hi + " " + hours + " " + te + hour_T + hi + " " + minutes + " " + te + min_T + hi + " " + seconds + " " + te + sec_T;
         }
         return left;
     }
