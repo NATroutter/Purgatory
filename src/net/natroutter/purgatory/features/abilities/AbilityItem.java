@@ -1,4 +1,4 @@
-package net.natroutter.purgatory.handlers.abilities;
+package net.natroutter.purgatory.features.abilities;
 
 import net.natroutter.natlibs.objects.BaseItem;
 import org.bukkit.Material;

@@ -2,7 +2,8 @@ package net.natroutter.purgatory.handlers;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import net.natroutter.purgatory.objects.BanData;
+import net.natroutter.purgatory.features.bancheck.BanChecker;
+import net.natroutter.purgatory.features.bancheck.BanData;
 import net.natroutter.purgatory.utilities.Config;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -22,6 +23,10 @@ public class LitebansHandler {
     private JavaPlugin pl;
     private ConsoleCommandSender console;
     private boolean valid = false;
+
+    public boolean getValid() {
+        return valid;
+    }
 
     public LitebansHandler(JavaPlugin pl, Config config) {
         this.pl = pl;

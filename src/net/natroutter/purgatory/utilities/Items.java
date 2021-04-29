@@ -5,19 +5,14 @@ import net.natroutter.natlibs.objects.BasePlayer;
 import net.natroutter.natlibs.utilities.SkullCreator;
 import net.natroutter.natlibs.utilities.StringHandler;
 import net.natroutter.purgatory.handlers.EcoHandler;
-import net.natroutter.purgatory.handlers.database.PlayerDataHandler;
 import net.natroutter.purgatory.Purgatory;
-import net.natroutter.purgatory.features.BanChecker;
-import net.natroutter.purgatory.objects.BanData;
+import net.natroutter.purgatory.features.bancheck.BanChecker;
+import net.natroutter.purgatory.features.bancheck.BanData;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class Items {
 
@@ -28,6 +23,14 @@ public class Items {
         BaseItem item = new BaseItem(Material.ENDER_CHEST);
         item.setDisplayName(lang.items.abilities_name);
         item.setLore(lang.items.abilities_lore);
+        item.addItemFlags(ItemFlag.values());
+        return item;
+    }
+
+    public static BaseItem TrollerHelmet() {
+        BaseItem item = new BaseItem(Material.CARVED_PUMPKIN);
+        item.setDisplayName(lang.items.TrollerHelmet_name);
+        item.setLore(lang.items.TrollerHelmet_lore);
         item.addItemFlags(ItemFlag.values());
         return item;
     }

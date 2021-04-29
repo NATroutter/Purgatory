@@ -1,15 +1,11 @@
 package net.natroutter.purgatory.features.Spectator;
 
 import net.natroutter.natlibs.objects.BasePlayer;
-import net.natroutter.natlibs.utilities.StringHandler;
 import net.natroutter.purgatory.Purgatory;
-import net.natroutter.purgatory.features.BanChecker;
 import net.natroutter.purgatory.handlers.database.PlayerDataHandler;
 import net.natroutter.purgatory.handlers.database.tables.PlayerData;
-import net.natroutter.purgatory.objects.BanData;
 import net.natroutter.purgatory.utilities.Items;
 import net.natroutter.purgatory.utilities.Lang;
-import net.natroutter.purgatory.utilities.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -42,6 +38,8 @@ public class SpectatorHandler {
         p.getActivePotionEffects().forEach(e->{p.removePotionEffect(e.getType());});
         if (state) {
             p.setGameMode(GameMode.ADVENTURE);
+            p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0, false, false));
+            p.getEquipment().setHelmet(Items.TrollerHelmet());
             hideToAll(p.getPlayer());
             p.setAllowFlight(true);
             p.setFlying(true);
@@ -56,7 +54,7 @@ public class SpectatorHandler {
         updateHiddenPlayers();
     }
 
-    private static void updateHiddenPlayers() {
+    public static void updateHiddenPlayers() {
         Bukkit.getOnlinePlayers().forEach(ps -> {
             hidden.forEach(hidden -> ps.hidePlayer(Purgatory.getInstance(), hidden));
         });

@@ -3,7 +3,7 @@ package net.natroutter.purgatory.commands;
 import net.natroutter.natlibs.objects.BasePlayer;
 import net.natroutter.natlibs.utilities.StringHandler;
 import net.natroutter.purgatory.Purgatory;
-import net.natroutter.purgatory.features.BanChecker;
+import net.natroutter.purgatory.features.bancheck.BanChecker;
 import net.natroutter.purgatory.features.Spectator.SpectatorHandler;
 import net.natroutter.purgatory.handlers.database.PlayerDataHandler;
 import net.natroutter.purgatory.handlers.database.tables.PlayerData;

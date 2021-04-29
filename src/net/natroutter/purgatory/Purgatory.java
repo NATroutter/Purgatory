@@ -1,20 +1,24 @@
 package net.natroutter.purgatory;
 
 import net.natroutter.natlibs.NATLibs;
+import net.natroutter.natlibs.handlers.Database.YamlDatabase;
 import net.natroutter.natlibs.handlers.EventManager;
 import net.natroutter.natlibs.handlers.FileManager;
 import net.natroutter.natlibs.utilities.Utilities;
 import net.natroutter.purgatory.commands.Spectator;
-import net.natroutter.purgatory.features.Spectator.SpectatorHandler;
+import net.natroutter.purgatory.features.ChatFormater;
 import net.natroutter.purgatory.features.Spectator.SpectatorEvents;
+import net.natroutter.purgatory.features.abilities.AbilityHandler;
+import net.natroutter.purgatory.handlers.Hooks;
 import net.natroutter.purgatory.handlers.LitebansHandler;
-import net.natroutter.purgatory.handlers.NpcHandler;
 import net.natroutter.purgatory.commands.PurgatoryCMD;
-import net.natroutter.purgatory.features.BanChecker;
-import net.natroutter.purgatory.handlers.abilities.AbilityHandler;
+import net.natroutter.purgatory.features.bancheck.BanChecker;
+import net.natroutter.purgatory.handlers.NpcHandler;
 import net.natroutter.purgatory.handlers.database.Database;
 import net.natroutter.purgatory.utilities.Config;
 import net.natroutter.purgatory.utilities.Lang;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 import net.natroutter.natlibs.handlers.FileManager.ConfType;
 
@@ -26,6 +30,8 @@ public class Purgatory extends JavaPlugin {
     private static LitebansHandler lbh;
     private static Database database;
     private static Utilities utilities;
+    private static YamlDatabase yamlDatabase;
+    private static Hooks hooks;
 
     public static JavaPlugin getInstance() { return instance; }
     public static Config getCfg() { return config; }
@@ -33,25 +39,40 @@ public class Purgatory extends JavaPlugin {
     public static LitebansHandler getLitebans() {return lbh;}
     public static Database getDatabase() {return database;}
     public static Utilities getUtilities() {return utilities;}
+    public static YamlDatabase getYamlDatabase() { return yamlDatabase; }
+    public static Hooks getHooks() { return hooks; }
+
+    private static FileManager cfgM;
+    private static FileManager langM;
+
+    //TODO
+    //lisää kompassi
+    //lisää leluja
+    //ime hirkun nahkakompassia
+
+    public static void loadConfigs() {
+        //Register & load configs
+        FileManager cfgM = new FileManager(instance, ConfType.Config);
+        config = cfgM.load(Config.class);
+
+        //Register & load language
+        FileManager langM = new FileManager(instance, ConfType.Lang);
+        lang = langM.load(Lang.class);
+    }
 
     @Override
     public void onEnable() {
         instance = this;
-
         NATLibs libs = new NATLibs(this);
 
-        //Register & load configs
-        FileManager cfgM = new FileManager(this, ConfType.Config);
-        config = cfgM.load(Config.class);
-
-        //Register & load language
-        FileManager langM = new FileManager(this, ConfType.Lang);
-        lang = langM.load(Lang.class);
+        loadConfigs();
 
         //Create litebans handler
         lbh = new LitebansHandler(this, config);
         database = new Database(this, config);
         utilities = new Utilities(this);
+        yamlDatabase = new YamlDatabase(this);
+        hooks = new Hooks(this);
 
         //Register abilities
         AbilityHandler.RegisterAbilities();
@@ -64,7 +85,8 @@ public class Purgatory extends JavaPlugin {
                 BanChecker.class,
                 NpcHandler.class,
                 SpectatorEvents.class,
-                AbilityHandler.class
+                AbilityHandler.class,
+                ChatFormater.class
         );
 
         //register commands
@@ -72,6 +94,14 @@ public class Purgatory extends JavaPlugin {
                 PurgatoryCMD.class,
                 Spectator.class
         );
+
+
+
+        for (World w : Bukkit.getWorlds()) {
+            w.setGameRuleValue("doInsomnia", "false");
+            w.setGameRuleValue("universalAnger", "false");
+            w.setGameRuleValue("spawnRadius", "0");
+        }
 
         NpcHandler.spawnAll();
 

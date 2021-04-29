@@ -1,22 +1,23 @@
 package net.natroutter.purgatory.features.Spectator;
 
+import net.natroutter.natlibs.objects.BaseItem;
 import net.natroutter.natlibs.objects.BasePlayer;
 import net.natroutter.purgatory.Purgatory;
-import net.natroutter.purgatory.features.BanChecker;
+import net.natroutter.purgatory.features.bancheck.BanChecker;
 import net.natroutter.purgatory.handlers.NpcHandler;
 import net.natroutter.purgatory.handlers.database.PlayerDataHandler;
 import net.natroutter.purgatory.handlers.database.tables.PlayerData;
-import net.natroutter.purgatory.objects.BanData;
+import net.natroutter.purgatory.utilities.Items;
 import net.natroutter.purgatory.utilities.Lang;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.PlayerInteractAtEntityEvent;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -43,6 +44,27 @@ public class SpectatorEvents implements Listener {
             PlayerDataHandler.updateForID(data);
         }
     }
+
+    @EventHandler
+    public void onWorldChange(PlayerChangedWorldEvent e) {
+        SpectatorHandler.updateHiddenPlayers();
+    }
+
+    @EventHandler
+    public void onSpectatorInvClick(InventoryClickEvent e) {
+        if (e.getWhoClicked() instanceof Player) {
+            BasePlayer p = BasePlayer.from(e.getWhoClicked());
+            if (e.getCurrentItem() == null) { return; }
+            if (e.getCursor() == null) { return; }
+            BaseItem current = BaseItem.from(e.getCurrentItem());
+            BaseItem cursor = BaseItem.from(e.getCursor());
+            if (cursor.isSimilar(Items.TrollerHelmet()) || current.isSimilar(Items.TrollerHelmet())) {
+                e.setResult(Event.Result.DENY);
+                e.setCancelled(true);
+            }
+        }
+    }
+
 
     @EventHandler
     public void onSpectatorFoodChange(FoodLevelChangeEvent e) {

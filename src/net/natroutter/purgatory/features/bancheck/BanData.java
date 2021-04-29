@@ -1,4 +1,4 @@
-package net.natroutter.purgatory.objects;
+package net.natroutter.purgatory.features.bancheck;
 
 import java.util.UUID;
 

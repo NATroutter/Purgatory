@@ -5,9 +5,12 @@ import java.math.BigDecimal;
 public class Config {
 
     public String BanRemover = "Purgatory";
+    public String ChatFormat = "{prefix}§7{displayname}{suffix}§8: §f{message}";
 
     public Integer OneDayPrice = 35000;
     public Integer MaxBalance = 100000000;
+    public Integer SafeTimeSeconds = 600;
+    public Integer SafeSpawnRadius = 100;
 
     public Shop Shop = new Shop();
     public static class Shop {
@@ -28,14 +31,6 @@ public class Config {
             public double gold_ingot = 1;
 
         }
-    }
-
-    public Npcs Npcs = new Npcs();
-    public static class Npcs {
-        public String Shop_loc_world = "world";
-        public double Shop_loc_x = 0.5;
-        public double Shop_loc_y = 100;
-        public double Shop_loc_z = 0.5;
     }
 
     public Database Database = new Database();

@@ -1,14 +1,14 @@
 package net.natroutter.purgatory.handlers;
 
+import net.natroutter.natlibs.handlers.Database.YamlDatabase;
 import net.natroutter.natlibs.objects.BasePlayer;
 import net.natroutter.purgatory.Purgatory;
-import net.natroutter.purgatory.features.BanChecker;
+import net.natroutter.purgatory.features.bancheck.BanChecker;
 import net.natroutter.purgatory.features.Spectator.SpectatorHandler;
 import net.natroutter.purgatory.features.shop.ShopGUI;
-import net.natroutter.purgatory.objects.BanData;
+import net.natroutter.purgatory.features.bancheck.BanData;
 import net.natroutter.purgatory.utilities.Config;
 import net.natroutter.purgatory.utilities.Lang;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -27,10 +27,9 @@ public class NpcHandler implements Listener {
     private final static Config config = Purgatory.getCfg();
     private final static Lang lang = Purgatory.getLang();
     private final static LitebansHandler lbh = Purgatory.getLitebans();
+    private final static YamlDatabase database = Purgatory.getYamlDatabase();
 
     private static HashMap<UUID, Villager> npcs = new HashMap<>();
-
-    private static Location shopLoc = new Location(Bukkit.getWorld(config.Npcs.Shop_loc_world), config.Npcs.Shop_loc_x, config.Npcs.Shop_loc_y, config.Npcs.Shop_loc_z);
 
     int cooldown = 3;
     public static HashMap<UUID, Long> cooldowns = new HashMap<>();
@@ -39,13 +38,19 @@ public class NpcHandler implements Listener {
 
 
     public static void spawnAll() {
+        Location shopLoc = database.getLocation("General", "ShopLoc");
+        if (shopLoc == null) {return;}
         shop = spawn(shopLoc, lang.shop.npc_name, Villager.Type.SAVANNA, Villager.Profession.WEAPONSMITH);
     }
 
     public static void despawnAll() {
+        Location shopLoc = database.getLocation("General", "ShopLoc");
+        if (shopLoc == null) {return;}
+
         for (Map.Entry<UUID, Villager> ents : npcs.entrySet()) {
             despawn(ents.getKey());
         }
+
         if (shopLoc.getWorld() == null) {return;}
         for (Entity e : shopLoc.getWorld().getNearbyEntities(shopLoc, 3, 3, 3)) {
 
@@ -135,7 +140,7 @@ public class NpcHandler implements Listener {
     @EventHandler
     public void onMove(PlayerMoveEvent e) {
         BasePlayer p = BasePlayer.from(e.getPlayer());
-        if (SpectatorHandler.isHidden(p)) { return; }
+        if (SpectatorHandler.isSpectator(p)) { return; }
 
         for (Entity ent : p.getNearbyEntities(5, 5, 5)) {
 

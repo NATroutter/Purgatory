@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Lang {
 
-    public String prefix = "§4§lPurgatory §8§l\u00BB ";
+    public String prefix = "§4§lPurgatory §8§l» ";
     public String ingameOnly = "§7This command can only be run ingame!";
     public String noPerm = "§7You do not have permission to do this";
     public String InvalidArgs = "§7Invalid command arguments";
@@ -36,6 +36,17 @@ public class Lang {
     public String SpectatorModeToggled = "§7Spectator mode: §c{status}";
     public String AbilityIsOnCooldown = "§7This ability is not cooldown wait §c{cooldown}";
     public String AlreadyHaveThisItem = "§7You already have this ability item in your inventory!";
+    public String AbilityActivated = "§7Activated ability §c{ability} §7on player §c{player}";
+    public String NoAbilityOnSpectator = "§7Abilities can\u0027t be activated to other spectators";
+    public String NoPermToAbility = "§7You don\u0027t have permissions to this ability";
+    public String AbilitySafeCooldown = "§c{player} §7is on safe cooldown for {cooldown}";
+    public String AbilityProtectedArea = "§7You can\u0027t use abilities in protected areas!";
+    public String SpawnSet = "§7Spawn has been set to your location!";
+    public String TeleportedToSpawn = "§7You have been teleported to spawn!";
+    public String SpawnNotSet = "§7Spawn is not set";
+    public String ShopSet = "§7Shop has been set to your location!";
+    public String NoPermToChat = "§7Only not banned players can use chat!";
+
 
     public statues statues = new statues();
     public static class statues {
@@ -53,6 +64,11 @@ public class Lang {
         add("§7so you don\u0027t have permissions to use purgatory");
     }};
 
+    public List<String> configFail_kickmessage = new ArrayList<String>() {{
+        add("                    §4§lPurgatory               ");
+        add("              §7Configuration failure           ");
+    }};
+
 
     public time time = new time();
     public static class time {
@@ -68,16 +84,130 @@ public class Lang {
     public static class abilities {
 
         public String gui_title = "§4§lAbilities";
+        public String ability_cooldown = "§7Cooldown: §c{cooldown}";
 
-        public String smkokescreen_name = "§4§lSmoke Screen";
-        public List<String> smkokescreen_lore = new ArrayList<String>() {{
-            add("§7Blinds player with thick smoke");
+        public String nause_name = "§4§lNause";
+        public String nause_permission = "purgatory.abilities.nause";
+        public Integer nause_cooldown = 120;
+        public List<String> nause_lore = new ArrayList<String>() {{
+            add("§7Target goes blurrrr");
         }};
+
+        public String flip_name = "§4§lFlip";
+        public String flip_permission = "purgatory.abilities.flip";
+        public Integer flip_cooldown = 60;
+        public List<String> flip_lore = new ArrayList<String>() {{
+            add("§7Flips target 180");
+        }};
+
+        public String web_name = "§4§lWeb";
+        public String web_permission = "purgatory.abilities.web";
+        public Integer web_cooldown = 60;
+        public List<String> web_lore = new ArrayList<String>() {{
+            add("§7Spawns cobweb on target feet");
+        }};
+
+        public String smokescreen_name = "§4§lSmoke Screen";
+        public String smokescreen_permission = "purgatory.abilities.smkokescreen";
+        public Integer smokescreen_cooldown = 60;
+        public List<String> smkokescreen_lore = new ArrayList<String>() {{
+            add("§7Blinds target with thicc smoke");
+        }};
+
+        public String slow_name = "§4§lSlow";
+        public String slow_permission = "purgatory.abilities.slow";
+        public Integer slow_cooldown = 60;
+        public List<String> slow_lore = new ArrayList<String>() {{
+            add("§7Slows target for 5 seconds");
+        }};
+
+        public String paralysis_name = "§4§lParalysis";
+        public String paralysis_permission = "purgatory.abilities.paralysis";
+        public Integer paralysis_cooldown = 90;
+        public List<String> paralysis_lore = new ArrayList<String>() {{
+            add("§7Paralyse target");
+        }};
+
+        public String speed_name = "§4§lSpeed";
+        public String sleep_permission = "purgatory.abilities.sleep";
+        public Integer sleep_cooldown = 60;
+        public List<String> speed_lore = new ArrayList<String>() {{
+            add("§7Target goes FAAAAAAAASSSSSSTTTT!!!");
+        }};
+
+        public String jumpboost_name = "§4§lJump boost";
+        public String jumpboost_permission = "purgatory.abilities.jumpboost";
+        public Integer jumpboost_cooldown = 60;
+        public List<String> jumpboost_lore = new ArrayList<String>() {{
+            add("§7Target goes high");
+        }};
+
+        public String lagstick_name = "§4§lLag Stick";
+        public String lagstick_permission = "purgatory.abilities.lagstick";
+        public Integer lagstick_cooldown = 60;
+        public List<String> lagstick_lore = new ArrayList<String>() {{
+            add("§7Target warps backwards every seconds for 3 seconds");
+        }};
+
+        public String scrambler_name = "§4§lScrambler";
+        public String scrambler_permission = "purgatory.abilities.scrambler";
+        public Integer scrambler_cooldown = 120;
+        public List<String> scrambler_lore = new ArrayList<String>() {{
+            add("§7Scramble target\u0027s inventory");
+        }};
+
+        public String superScrambler_name = "§4§lSuper Scrambler";
+        public String superScrambler_permission = "purgatory.abilities.superscrambler";
+        public Integer superScrambler_cooldown = 300;
+        public List<String> superScrambler_lore = new ArrayList<String>() {{
+            add("§7Scramble target\u0027s inventory every 0.5 seconds for 5 seconds");
+        }};
+
+        public String dropper_name = "§4§lDropper";
+        public String dropper_permission = "purgatory.abilities.dropper";
+        public Integer dropper_cooldown = 300;
+        public List<String> dropper_lore = new ArrayList<String>() {{
+            add("§7Drops random item from target\u0027s hotbar");
+        }};
+
+        public String freesholves_name = "§4§lFree shovel";
+        public String freesholves_permission = "purgatory.abilities.freesholves";
+        public Integer freesholves_cooldown = 120;
+        public List<String> freesholves_lore = new ArrayList<String>() {{
+            add("§7Fills target\u0027s inventory with wooden shovels");
+        }};
+
+        public String thief_name = "§4§lThief";
+        public String thief_permission = "purgatory.abilities.thief";
+        public Integer thief_cooldown = 300;
+        public List<String> thief_lore = new ArrayList<String>() {{
+            add("§7Removes items when target pickup something for 5 seconds");
+        }};
+
+        public String oreswap_name = "§4§lOre Swap";
+        public String oreswap_permission = "purgatory.abilities.oreswap";
+        public Integer oreswap_cooldown = 300;
+        public List<String> oreswap_lore = new ArrayList<String>() {{
+            add("§7Replaces all ore in 25x25x25 area to stone");
+        }};
+
+        public String slowfall_name = "§4§lSlow Fall";
+        public String slowfall_permission = "purgatory.abilities.slowfall";
+        public Integer slowfall_cooldown = 300;
+        public List<String> slowfall_lore = new ArrayList<String>() {{
+            add("§7Target goes up with levitation and goes down slow falling");
+        }};
+
 
     }
 
     public items items = new items();
     public static class items {
+
+        public String TrollerHelmet_name = "§4§lTroller Helmet";
+        public List<String> TrollerHelmet_lore = new ArrayList<String>() {{
+            add("§7U are pumpkin ;)");
+        }};
 
         public String abilities_name = "§4§lAbilities";
         public List<String> abilities_lore = new ArrayList<String>() {{

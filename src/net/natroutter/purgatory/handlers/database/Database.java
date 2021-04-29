@@ -21,6 +21,10 @@ public class Database {
 
     private boolean valid = false;
 
+    public boolean getValid() {
+        return valid;
+    }
+
     public Database(JavaPlugin pl, Config config) {
         ConsoleCommandSender console = pl.getServer().getConsoleSender();
 

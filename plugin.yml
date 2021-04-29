@@ -4,3 +4,5 @@ version: 1.0.0
 author: NATroutter
 description: Gamemode for banned players
 api-version: 1.16
+softdepend:
+  - Vault

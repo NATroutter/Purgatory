@@ -1,11 +1,13 @@
-package net.natroutter.purgatory.handlers.abilities;
+package net.natroutter.purgatory.features.abilities;
 
 import net.natroutter.natlibs.handlers.gui.GUIItem;
 import net.natroutter.natlibs.handlers.gui.GUIWindow;
 import net.natroutter.natlibs.objects.BaseItem;
 import net.natroutter.natlibs.objects.BasePlayer;
+import net.natroutter.natlibs.utilities.StringHandler;
 import net.natroutter.purgatory.Purgatory;
 import net.natroutter.purgatory.utilities.Lang;
+import net.natroutter.purgatory.utilities.Utils;
 import org.bukkit.inventory.ItemStack;
 
 public class AbilityGui {
@@ -21,7 +23,13 @@ public class AbilityGui {
         Integer pos = 0;
 
         for (Ability ab : AbilityHandler.abilities) {
-            gui.setItem(new GUIItem(ab.getAbilityItem().getItem(), (e)->{
+            BaseItem DisplayItem = new BaseItem(ab.getAbilityItem().getItem());
+
+            StringHandler loreitem1 = new StringHandler(lang.abilities.ability_cooldown);
+            loreitem1.replaceAll("{cooldown}" , Utils.timeLeft(ab.getCooldownSeconds()));
+            DisplayItem.addLore(" ", loreitem1.build());
+
+            gui.setItem(new GUIItem(DisplayItem, (e)->{
 
                 for (ItemStack item : p.getInventory().getContents()) {
                     if (item == null) {continue;}
@@ -31,6 +39,12 @@ public class AbilityGui {
                         return;
                     }
                 }
+
+                if (!p.hasPermission(ab.getPermission())) {
+                    p.sendMessage(lang.prefix + lang.NoPermToAbility);
+                    return;
+                }
+
                 p.getInventory().addItem(ab.getAbilityItem().getItem());
 
             }),pos);
