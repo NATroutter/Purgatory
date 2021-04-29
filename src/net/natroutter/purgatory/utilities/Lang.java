@@ -34,6 +34,8 @@ public class Lang {
     public String SpectatorNotAllowed = "§7You can\u0027t do that while spectating!";
     public String SpectateSwitchCooldown = "§7You can\u0027t switch spectator mode so quickly wait {cooldown}!";
     public String SpectatorModeToggled = "§7Spectator mode: §c{status}";
+    public String AbilityIsOnCooldown = "§7This ability is not cooldown wait §c{cooldown}";
+    public String AlreadyHaveThisItem = "§7You already have this ability item in your inventory!";
 
     public statues statues = new statues();
     public static class statues {
@@ -51,6 +53,7 @@ public class Lang {
         add("§7so you don\u0027t have permissions to use purgatory");
     }};
 
+
     public time time = new time();
     public static class time {
         public String seconds = "seconds";
@@ -61,8 +64,27 @@ public class Lang {
         public String highlight_color = "§c";
     }
 
+    public abilities abilities = new abilities();
+    public static class abilities {
+
+        public String gui_title = "§4§lAbilities";
+
+        public String smkokescreen_name = "§4§lSmoke Screen";
+        public List<String> smkokescreen_lore = new ArrayList<String>() {{
+            add("§7Blinds player with thick smoke");
+        }};
+
+    }
+
     public items items = new items();
     public static class items {
+
+        public String abilities_name = "§4§lAbilities";
+        public List<String> abilities_lore = new ArrayList<String>() {{
+            add("§7here you can find all kind of abilities");
+            add("§7what you can use to troll banned players");
+        }};
+
         public String playerinfo_name = "§4§l{name}";
         public List<String> playerinfo_lore = new ArrayList<String>() {{
             add("§7Balance: §c{balance}");

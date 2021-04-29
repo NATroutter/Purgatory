@@ -26,21 +26,33 @@ public class NpcHandler implements Listener {
 
     private final static Config config = Purgatory.getCfg();
     private final static Lang lang = Purgatory.getLang();
+    private final static LitebansHandler lbh = Purgatory.getLitebans();
+
     private static HashMap<UUID, Villager> npcs = new HashMap<>();
+
+    private static Location shopLoc = new Location(Bukkit.getWorld(config.Npcs.Shop_loc_world), config.Npcs.Shop_loc_x, config.Npcs.Shop_loc_y, config.Npcs.Shop_loc_z);
 
     int cooldown = 3;
     public static HashMap<UUID, Long> cooldowns = new HashMap<>();
 
     private static Villager shop;
 
+
     public static void spawnAll() {
-        Location shopLoc = new Location(Bukkit.getWorld(config.Npcs.Shop_loc_world), config.Npcs.Shop_loc_x, config.Npcs.Shop_loc_y, config.Npcs.Shop_loc_z);
         shop = spawn(shopLoc, lang.shop.npc_name, Villager.Type.SAVANNA, Villager.Profession.WEAPONSMITH);
     }
 
     public static void despawnAll() {
         for (Map.Entry<UUID, Villager> ents : npcs.entrySet()) {
             despawn(ents.getKey());
+        }
+        if (shopLoc.getWorld() == null) {return;}
+        for (Entity e : shopLoc.getWorld().getNearbyEntities(shopLoc, 3, 3, 3)) {
+
+            if (!e.getType().equals(EntityType.VILLAGER)) { continue; }
+            if (!e.isCustomNameVisible()) { continue; }
+
+            e.remove();
         }
     }
 
@@ -73,16 +85,6 @@ public class NpcHandler implements Listener {
         if (ent != null) {
             if (ent.isValid()) {
                 ent.remove();
-            } else {
-                if (ent == null) {return;}
-                Collection<Entity> ents = ent.getWorld().getNearbyEntities(ent.getLocation(), 3, 3, 3);
-                for (Entity e : ents) {
-                    if (e.getType().equals(EntityType.VILLAGER)) {
-                        if (e.isCustomNameVisible()) {
-                            e.remove();
-                        }
-                    }
-                }
             }
         }
     }
@@ -116,6 +118,11 @@ public class NpcHandler implements Listener {
             BanChecker.update(p);
             BanData data = BanChecker.check(p);
             if (data != null) {
+                if (data.getUntil() < System.currentTimeMillis()) {
+                    lbh.unBan(p.getUniqueId());
+                    p.closeInventory();
+                    return;
+                }
                 ShopGUI.show(p);
             } else {
                 p.sendMessage(lang.prefix + lang.bannedOnly);
@@ -128,6 +135,8 @@ public class NpcHandler implements Listener {
     @EventHandler
     public void onMove(PlayerMoveEvent e) {
         BasePlayer p = BasePlayer.from(e.getPlayer());
+        if (SpectatorHandler.isHidden(p)) { return; }
+
         for (Entity ent : p.getNearbyEntities(5, 5, 5)) {
 
             if (!ent.getType().equals(EntityType.VILLAGER)) { continue; }

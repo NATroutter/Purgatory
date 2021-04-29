@@ -24,6 +24,14 @@ public class Items {
     private final static Lang lang = Purgatory.getLang();
     private final static Config config = Purgatory.getCfg();
 
+    public static BaseItem abilityBox() {
+        BaseItem item = new BaseItem(Material.ENDER_CHEST);
+        item.setDisplayName(lang.items.abilities_name);
+        item.setLore(lang.items.abilities_lore);
+        item.addItemFlags(ItemFlag.values());
+        return item;
+    }
+
     public static BaseItem shopItem(Material mat, String name, List<String> lore, double price) {
         BaseItem item = new BaseItem(mat);
         item.setDisplayName(name);
@@ -65,19 +73,19 @@ public class Items {
 
         item.setDisplayName(lang.items.baninfo_name);
 
-        BanData data = BanChecker.check(p);
-        List<String> lore = new ArrayList<>();
-        for (String line : lang.items.baninfo_lore) {
-            StringHandler str = new StringHandler(line);
-            if (data != null) {
-                str.replaceAll("{reason}", data.getReason());
-                str.replaceAll("{bannedby}", data.getBanned_by_name());
-                str.replaceAll("{length}", Utils.timeLeft(data.getBanSeconds()));
-            }
-            lore.add(str.build());
-        }
-
         if (BanChecker.isBanned(p)) {
+            BanData data = BanChecker.check(p);
+            List<String> lore = new ArrayList<>();
+            for (String line : lang.items.baninfo_lore) {
+                StringHandler str = new StringHandler(line);
+                if (data != null) {
+                    str.replaceAll("{reason}", data.getReason());
+                    str.replaceAll("{bannedby}", data.getBanned_by_name());
+                    str.replaceAll("{length}", Utils.timeLeft(data.getBanSeconds()));
+                }
+                lore.add(str.build());
+            }
+
             item.setLore(lore);
         } else {
             item.setLore(lang.NotBanned_lore);

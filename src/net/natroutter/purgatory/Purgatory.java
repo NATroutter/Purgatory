@@ -11,6 +11,7 @@ import net.natroutter.purgatory.handlers.LitebansHandler;
 import net.natroutter.purgatory.handlers.NpcHandler;
 import net.natroutter.purgatory.commands.PurgatoryCMD;
 import net.natroutter.purgatory.features.BanChecker;
+import net.natroutter.purgatory.handlers.abilities.AbilityHandler;
 import net.natroutter.purgatory.handlers.database.Database;
 import net.natroutter.purgatory.utilities.Config;
 import net.natroutter.purgatory.utilities.Lang;
@@ -19,12 +20,14 @@ import net.natroutter.natlibs.handlers.FileManager.ConfType;
 
 public class Purgatory extends JavaPlugin {
 
+    private static JavaPlugin instance;
     private static Config config;
     private static Lang lang;
     private static LitebansHandler lbh;
     private static Database database;
     private static Utilities utilities;
 
+    public static JavaPlugin getInstance() { return instance; }
     public static Config getCfg() { return config; }
     public static Lang getLang() { return lang; }
     public static LitebansHandler getLitebans() {return lbh;}
@@ -33,6 +36,7 @@ public class Purgatory extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        instance = this;
 
         NATLibs libs = new NATLibs(this);
 
@@ -49,6 +53,9 @@ public class Purgatory extends JavaPlugin {
         database = new Database(this, config);
         utilities = new Utilities(this);
 
+        //Register abilities
+        AbilityHandler.RegisterAbilities();
+
         //Create event manager
         EventManager evm = new EventManager(this);
 
@@ -56,7 +63,8 @@ public class Purgatory extends JavaPlugin {
         evm.RegisterListeners(
                 BanChecker.class,
                 NpcHandler.class,
-                SpectatorEvents.class
+                SpectatorEvents.class,
+                AbilityHandler.class
         );
 
         //register commands

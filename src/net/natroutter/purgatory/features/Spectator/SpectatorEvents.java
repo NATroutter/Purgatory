@@ -21,6 +21,9 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import java.util.HashMap;
+import java.util.UUID;
+
 public class SpectatorEvents implements Listener {
 
     private static final Lang lang = Purgatory.getLang();
@@ -92,10 +95,16 @@ public class SpectatorEvents implements Listener {
         }
     }
 
+    private HashMap<UUID, Long> cool1 = new HashMap<>();
     @EventHandler
     public void onSpectatorPickup(EntityPickupItemEvent e) {
         if (e.getEntity() instanceof Player) {
             BasePlayer p = BasePlayer.from(e.getEntity());
+
+            long cl = ((cool1.getOrDefault(p.getUniqueId(), 0L) /1000)+1) - (System.currentTimeMillis()/1000);
+            if (cl > 0) { return; }
+            cool1.put(p.getUniqueId(), System.currentTimeMillis());
+
             if (SpectatorHandler.isSpectator(p)) {
                 e.setCancelled(true);
                 p.sendMessage(lang.prefix + lang.SpectatorNotAllowed);
@@ -103,38 +112,15 @@ public class SpectatorEvents implements Listener {
         }
     }
 
-    @EventHandler
-    public void onSpectatorDrop(EntityDropItemEvent e) {
-        if (e.getEntity() instanceof Player) {
-            BasePlayer p = BasePlayer.from(e.getEntity());
-            if (SpectatorHandler.isSpectator(p)) {
-                e.setCancelled(true);
-                p.sendMessage(lang.prefix + lang.SpectatorNotAllowed);
-            }
-        }
-    }
 
     @EventHandler
     public void onSpectatorInteract(PlayerInteractEvent e) {
         BasePlayer p = BasePlayer.from(e.getPlayer());
         if (SpectatorHandler.isSpectator(p)) {
             e.setCancelled(true);
-            Action act = e.getAction();
-            if (act.equals(Action.LEFT_CLICK_AIR) || act.equals(Action.RIGHT_CLICK_AIR)) { return; }
-            p.sendMessage(lang.prefix + lang.SpectatorNotAllowed);
         }
     }
 
-    @EventHandler
-    public void onSpectatorInteractAtEntity(PlayerInteractAtEntityEvent e) {
-        BasePlayer p = BasePlayer.from(e.getPlayer());
-        if (SpectatorHandler.isSpectator(p)) {
-            e.setCancelled(true);
-            if (!NpcHandler.isNpc(e.getRightClicked().getUniqueId())) {
-                p.sendMessage(lang.prefix + lang.SpectatorNotAllowed);
-            }
-        }
-    }
 
     @EventHandler
     public void onSpectatorInteractEntity(PlayerInteractEntityEvent e) {
@@ -142,6 +128,9 @@ public class SpectatorEvents implements Listener {
         if (SpectatorHandler.isSpectator(p)) {
             e.setCancelled(true);
             if (!NpcHandler.isNpc(e.getRightClicked().getUniqueId())) {
+                if (e.getRightClicked() instanceof Player) {
+                    return;
+                }
                 p.sendMessage(lang.prefix + lang.SpectatorNotAllowed);
             }
         }
