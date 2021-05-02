@@ -9,7 +9,7 @@ public class Config {
 
     public Integer OneDayPrice = 35000;
     public Integer MaxBalance = 100000000;
-    public Integer SafeTimeSeconds = 600;
+    public Integer SafeTimeSeconds = 300;
     public Integer SafeSpawnRadius = 100;
 
     public Shop Shop = new Shop();

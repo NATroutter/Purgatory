@@ -8,6 +8,7 @@ import net.natroutter.natlibs.utilities.Utilities;
 import net.natroutter.purgatory.commands.Spectator;
 import net.natroutter.purgatory.features.ChatFormater;
 import net.natroutter.purgatory.features.Spectator.SpectatorEvents;
+import net.natroutter.purgatory.features.TrackerCompass.CompassEvents;
 import net.natroutter.purgatory.features.abilities.AbilityHandler;
 import net.natroutter.purgatory.features.abilities.AbilityListeners;
 import net.natroutter.purgatory.features.abilities.ability.Thief;
@@ -44,11 +45,6 @@ public class Purgatory extends JavaPlugin {
     public static YamlDatabase getYamlDatabase() { return yamlDatabase; }
     public static Hooks getHooks() { return hooks; }
 
-    //TODO
-    //lisää kompassi
-    //lisää leluja
-    //ime hirkun nahkakompassia
-
     @Override
     public void onEnable() {
         instance = this;
@@ -82,7 +78,8 @@ public class Purgatory extends JavaPlugin {
                 SpectatorEvents.class,
                 AbilityHandler.class,
                 ChatFormater.class,
-                AbilityListeners.class
+                AbilityListeners.class,
+                CompassEvents.class
         );
 
         //register commands

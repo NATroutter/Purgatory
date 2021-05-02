@@ -48,6 +48,7 @@ public class SpectatorHandler {
             p.setAllowFlight(true);
             p.setFlying(true);
             p.getInventory().setItem(0, Items.abilityBox());
+            p.getInventory().setItem(1, Items.TrackerCompass());
         } else {
             p.setGameMode(GameMode.SURVIVAL);
             showToAll(p.getPlayer());

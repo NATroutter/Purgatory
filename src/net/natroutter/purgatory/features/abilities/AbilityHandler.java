@@ -47,22 +47,22 @@ public class AbilityHandler implements Listener {
 
 
     //Ability items
-    private static final AbilityItem nause_item = new AbilityItem("Nause", Material.SPIDER_EYE, ab.nause_name, ab.nause_lore);
-    private static final AbilityItem flip_item = new AbilityItem("Flip", Material.BRICK, ab.flip_name, ab.flip_lore);
-    private static final AbilityItem web_item = new AbilityItem("Web", Material.COBWEB, ab.web_name, ab.web_lore);
-    private static final AbilityItem smokescreen_item = new AbilityItem("SmokeScreen", Material.FLINT_AND_STEEL, ab.smokescreen_name, ab.smkokescreen_lore);
-    private static final AbilityItem slow_item = new AbilityItem("Slow", Material.FERMENTED_SPIDER_EYE, ab.slow_name, ab.slow_lore);
-    private static final AbilityItem paralysis_item = new AbilityItem("Paralysis", Material.STONE_AXE, ab.paralysis_name, ab.paralysis_lore);
-    private static final AbilityItem speed_item = new AbilityItem("Speed", Material.SUGAR, ab.speed_name, ab.speed_lore);
-    private static final AbilityItem jumpboost_item = new AbilityItem("JumpBoost", Material.BEACON, ab.jumpboost_name, ab.jumpboost_lore);
-    private static final AbilityItem lagstick_item = new AbilityItem("LagStick", Material.STICK, ab.lagstick_name, ab.lagstick_lore);
-    private static final AbilityItem scrambler_item = new AbilityItem("Scrambler", Material.BLAZE_ROD, ab.scrambler_name, ab.scrambler_lore);
-    private static final AbilityItem superscrabler_item = new AbilityItem("SuperScrambler", Material.BLAZE_POWDER, ab.superScrambler_name, ab.superScrambler_lore);
-    private static final AbilityItem dropper_item = new AbilityItem("Dropper", Material.DROPPER, ab.dropper_name, ab.dropper_lore);
-    private static final AbilityItem freeshovels_item = new AbilityItem("Freeshovels", Material.WOODEN_SHOVEL, ab.freesholves_name, ab.freesholves_lore);
-    private static final AbilityItem thief_item = new AbilityItem("Thief", Material.GOLD_NUGGET, ab.thief_name, ab.thief_lore);
-    private static final AbilityItem oreswap_item = new AbilityItem("OreSwap", Material.IRON_ORE, ab.oreswap_name, ab.oreswap_lore);
-    private static final AbilityItem slowfall_item = new AbilityItem("SlowFall", Material.FEATHER, ab.slowfall_name, ab.slowfall_lore);
+    private static final AbilityItem nause_item = new AbilityItem("Nause", Material.SPIDER_EYE, ab.nause_name, ab.nause_lore, ab.nause_needToUnlock);
+    private static final AbilityItem flip_item = new AbilityItem("Flip", Material.BRICK, ab.flip_name, ab.flip_lore, ab.flip_needToUnlock);
+    private static final AbilityItem web_item = new AbilityItem("Web", Material.COBWEB, ab.web_name, ab.web_lore, ab.web_needToUnlock);
+    private static final AbilityItem smokescreen_item = new AbilityItem("SmokeScreen", Material.FLINT_AND_STEEL, ab.smokescreen_name, ab.smkokescreen_lore, ab.smokescreen_needToUnlock);
+    private static final AbilityItem slow_item = new AbilityItem("Slow", Material.FERMENTED_SPIDER_EYE, ab.slow_name, ab.slow_lore, ab.slow_needToUnlock);
+    private static final AbilityItem paralysis_item = new AbilityItem("Paralysis", Material.STONE_AXE, ab.paralysis_name, ab.paralysis_lore, ab.paralysis_needToUnlock);
+    private static final AbilityItem speed_item = new AbilityItem("Speed", Material.SUGAR, ab.speed_name, ab.speed_lore, ab.speed_needToUnlock);
+    private static final AbilityItem jumpboost_item = new AbilityItem("JumpBoost", Material.BEACON, ab.jumpboost_name, ab.jumpboost_lore, ab.jumpboost_needToUnlock);
+    private static final AbilityItem lagstick_item = new AbilityItem("LagStick", Material.STICK, ab.lagstick_name, ab.lagstick_lore, ab.lagstick_needToUnlock);
+    private static final AbilityItem scrambler_item = new AbilityItem("Scrambler", Material.BLAZE_ROD, ab.scrambler_name, ab.scrambler_lore, ab.scrambler_needToUnlock);
+    private static final AbilityItem dropper_item = new AbilityItem("Dropper", Material.DROPPER, ab.dropper_name, ab.dropper_lore, ab.dropper_needToUnlock);
+    private static final AbilityItem freeshovels_item = new AbilityItem("Freeshovels", Material.WOODEN_SHOVEL, ab.freeshovels_name, ab.freesholves_lore, ab.freeshovels_needToUnlock);
+    private static final AbilityItem superscrabler_item = new AbilityItem("SuperScrambler", Material.BLAZE_POWDER, ab.superScrambler_name, ab.superScrambler_lore, ab.SuperScrambler_needToUnlock);
+    private static final AbilityItem thief_item = new AbilityItem("Thief", Material.GOLD_NUGGET, ab.thief_name, ab.thief_lore, ab.thief_needToUnlock);
+    private static final AbilityItem oreswap_item = new AbilityItem("OreSwap", Material.IRON_ORE, ab.oreswap_name, ab.oreswap_lore, ab.oreswap_needToUnlock);
+    private static final AbilityItem slowfall_item = new AbilityItem("SlowFall", Material.FEATHER, ab.slowfall_name, ab.slowfall_lore, ab.slowfall_needToUnlock);
 
     //register abilities
     public static void RegisterAbilities() {
@@ -76,9 +76,9 @@ public class AbilityHandler implements Listener {
         abilities.add(new JumpBoost(jumpboost_item, ab.jumpboost_cooldown, ab.jumpboost_permission));
         abilities.add(new LagStick(lagstick_item, ab.lagstick_cooldown, ab.lagstick_permission));
         abilities.add(new Scrambler(scrambler_item, ab.scrambler_cooldown, ab.scrambler_permission));
-        abilities.add(new SuperScrambler(superscrabler_item, ab.scrambler_cooldown, ab.superScrambler_permission));
         abilities.add(new Dropper(dropper_item, ab.dropper_cooldown, ab.dropper_permission));
-        abilities.add(new FreeShovels(freeshovels_item, ab.freesholves_cooldown, ab.freesholves_permission));
+        abilities.add(new FreeShovels(freeshovels_item, ab.freeshovels_cooldown, ab.freeshovels_permission));
+        abilities.add(new SuperScrambler(superscrabler_item, ab.scrambler_cooldown, ab.superScrambler_permission));
         abilities.add(new Thief(thief_item, ab.thief_cooldown, ab.thief_permission));
         abilities.add(new OreSwap(oreswap_item, ab.oreswap_cooldown, ab.oreswap_permission));
         abilities.add(new SlowFall(slowfall_item, ab.slowfall_cooldown, ab.slowfall_permission));

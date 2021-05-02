@@ -19,6 +19,14 @@ public class Items {
     private final static Lang lang = Purgatory.getLang();
     private final static Config config = Purgatory.getCfg();
 
+    public static BaseItem TrackerCompass() {
+        BaseItem item = new BaseItem(Material.COMPASS);
+        item.setDisplayName(lang.items.TrackerCompass_name);
+        item.setLore(lang.items.TrackerCompass_lore);
+        item.addItemFlags(ItemFlag.values());
+        return item;
+    }
+
     public static BaseItem abilityBox() {
         BaseItem item = new BaseItem(Material.ENDER_CHEST);
         item.setDisplayName(lang.items.abilities_name);

@@ -24,10 +24,14 @@ public class AbilityGui {
 
         for (Ability ab : AbilityHandler.abilities) {
             BaseItem DisplayItem = new BaseItem(ab.getAbilityItem().getItem());
-
             StringHandler loreitem1 = new StringHandler(lang.abilities.ability_cooldown);
             loreitem1.replaceAll("{cooldown}" , Utils.timeLeft(ab.getCooldownSeconds()));
-            DisplayItem.addLore(" ", loreitem1.build());
+
+            if (ab.getAbilityItem().hasNeeds()) {
+                DisplayItem.addLore(loreitem1.build());
+            } else {
+                DisplayItem.addLore(" ", loreitem1.build());
+            }
 
             gui.setItem(new GUIItem(DisplayItem, (e)->{
 

@@ -46,6 +46,9 @@ public class Lang {
     public String SpawnNotSet = "§7Spawn is not set";
     public String ShopSet = "§7Shop has been set to your location!";
     public String NoPermToChat = "§7Only not banned players can use chat!";
+    public String UnlockNeeds = "§7Unlocking: §c{need}";
+    public String Track_title = "§4§l{target}";
+    public String Track_subtitle = "§c{distance}§7m";
 
 
     public statues statues = new statues();
@@ -88,6 +91,7 @@ public class Lang {
 
         public String nause_name = "§4§lNause";
         public String nause_permission = "purgatory.abilities.nause";
+        public String nause_needToUnlock = "none";
         public Integer nause_cooldown = 120;
         public List<String> nause_lore = new ArrayList<String>() {{
             add("§7Target goes blurrrr");
@@ -95,6 +99,7 @@ public class Lang {
 
         public String flip_name = "§4§lFlip";
         public String flip_permission = "purgatory.abilities.flip";
+        public String flip_needToUnlock = "none";
         public Integer flip_cooldown = 60;
         public List<String> flip_lore = new ArrayList<String>() {{
             add("§7Flips target 180");
@@ -102,6 +107,7 @@ public class Lang {
 
         public String web_name = "§4§lWeb";
         public String web_permission = "purgatory.abilities.web";
+        public String web_needToUnlock = "none";
         public Integer web_cooldown = 60;
         public List<String> web_lore = new ArrayList<String>() {{
             add("§7Spawns cobweb on target feet");
@@ -109,6 +115,7 @@ public class Lang {
 
         public String smokescreen_name = "§4§lSmoke Screen";
         public String smokescreen_permission = "purgatory.abilities.smkokescreen";
+        public String smokescreen_needToUnlock = "none";
         public Integer smokescreen_cooldown = 60;
         public List<String> smkokescreen_lore = new ArrayList<String>() {{
             add("§7Blinds target with thicc smoke");
@@ -116,6 +123,7 @@ public class Lang {
 
         public String slow_name = "§4§lSlow";
         public String slow_permission = "purgatory.abilities.slow";
+        public String slow_needToUnlock = "none";
         public Integer slow_cooldown = 60;
         public List<String> slow_lore = new ArrayList<String>() {{
             add("§7Slows target for 5 seconds");
@@ -123,6 +131,7 @@ public class Lang {
 
         public String paralysis_name = "§4§lParalysis";
         public String paralysis_permission = "purgatory.abilities.paralysis";
+        public String paralysis_needToUnlock = "none";
         public Integer paralysis_cooldown = 90;
         public List<String> paralysis_lore = new ArrayList<String>() {{
             add("§7Paralyse target");
@@ -130,6 +139,7 @@ public class Lang {
 
         public String speed_name = "§4§lSpeed";
         public String sleep_permission = "purgatory.abilities.sleep";
+        public String speed_needToUnlock = "none";
         public Integer sleep_cooldown = 60;
         public List<String> speed_lore = new ArrayList<String>() {{
             add("§7Target goes FAAAAAAAASSSSSSTTTT!!!");
@@ -137,6 +147,7 @@ public class Lang {
 
         public String jumpboost_name = "§4§lJump boost";
         public String jumpboost_permission = "purgatory.abilities.jumpboost";
+        public String jumpboost_needToUnlock = "none";
         public Integer jumpboost_cooldown = 60;
         public List<String> jumpboost_lore = new ArrayList<String>() {{
             add("§7Target goes high");
@@ -144,6 +155,7 @@ public class Lang {
 
         public String lagstick_name = "§4§lLag Stick";
         public String lagstick_permission = "purgatory.abilities.lagstick";
+        public String lagstick_needToUnlock = "Premium Vip";
         public Integer lagstick_cooldown = 60;
         public List<String> lagstick_lore = new ArrayList<String>() {{
             add("§7Target warps backwards every seconds for 3 seconds");
@@ -151,34 +163,39 @@ public class Lang {
 
         public String scrambler_name = "§4§lScrambler";
         public String scrambler_permission = "purgatory.abilities.scrambler";
+        public String scrambler_needToUnlock = "Premium Vip";
         public Integer scrambler_cooldown = 120;
         public List<String> scrambler_lore = new ArrayList<String>() {{
             add("§7Scramble target's inventory");
         }};
 
-        public String superScrambler_name = "§4§lSuper Scrambler";
-        public String superScrambler_permission = "purgatory.abilities.superscrambler";
-        public Integer superScrambler_cooldown = 300;
-        public List<String> superScrambler_lore = new ArrayList<String>() {{
-            add("§7Scramble target's inventory every 0.5 seconds for 5 seconds");
-        }};
-
         public String dropper_name = "§4§lDropper";
         public String dropper_permission = "purgatory.abilities.dropper";
+        public String dropper_needToUnlock = "Premium Vip";
         public Integer dropper_cooldown = 300;
         public List<String> dropper_lore = new ArrayList<String>() {{
             add("§7Drops random item from target's hotbar");
         }};
 
-        public String freesholves_name = "§4§lFree shovel";
-        public String freesholves_permission = "purgatory.abilities.freesholves";
-        public Integer freesholves_cooldown = 120;
+        public String freeshovels_name = "§4§lFree shovel";
+        public String freeshovels_permission = "purgatory.abilities.freesholves";
+        public String freeshovels_needToUnlock = "Premium Vip";
+        public Integer freeshovels_cooldown = 120;
         public List<String> freesholves_lore = new ArrayList<String>() {{
             add("§7Fills target's inventory with wooden shovels");
         }};
 
+        public String superScrambler_name = "§4§lSuper Scrambler";
+        public String superScrambler_permission = "purgatory.abilities.superscrambler";
+        public String SuperScrambler_needToUnlock = "Premium Vip+";
+        public Integer superScrambler_cooldown = 300;
+        public List<String> superScrambler_lore = new ArrayList<String>() {{
+            add("§7Scramble target's inventory every 0.5 seconds for 5 seconds");
+        }};
+
         public String thief_name = "§4§lThief";
         public String thief_permission = "purgatory.abilities.thief";
+        public String thief_needToUnlock = "Ultimate vip";
         public Integer thief_cooldown = 300;
         public List<String> thief_lore = new ArrayList<String>() {{
             add("§7Removes items when target pickup something for 5 seconds");
@@ -186,6 +203,7 @@ public class Lang {
 
         public String oreswap_name = "§4§lOre Swap";
         public String oreswap_permission = "purgatory.abilities.oreswap";
+        public String oreswap_needToUnlock = "Ultimate vip";
         public Integer oreswap_cooldown = 300;
         public List<String> oreswap_lore = new ArrayList<String>() {{
             add("§7Replaces all ore in 25x25x25 area to stone");
@@ -193,6 +211,7 @@ public class Lang {
 
         public String slowfall_name = "§4§lSlow Fall";
         public String slowfall_permission = "purgatory.abilities.slowfall";
+        public String slowfall_needToUnlock = "Ultimate+ vip";
         public Integer slowfall_cooldown = 300;
         public List<String> slowfall_lore = new ArrayList<String>() {{
             add("§7Target goes up with levitation and goes down slow falling");
@@ -203,6 +222,11 @@ public class Lang {
 
     public items items = new items();
     public static class items {
+
+        public String TrackerCompass_name = "§4§lTracker";
+        public List<String> TrackerCompass_lore = new ArrayList<String>() {{
+            add("§7Tracks banned players in 200 blocks radius");
+        }};
 
         public String TrollerHelmet_name = "§4§lTroller Helmet";
         public List<String> TrollerHelmet_lore = new ArrayList<String>() {{
