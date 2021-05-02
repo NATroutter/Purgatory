@@ -122,13 +122,13 @@ public class SpectatorEvents implements Listener {
     public void onSpectatorPickup(EntityPickupItemEvent e) {
         if (e.getEntity() instanceof Player) {
             BasePlayer p = BasePlayer.from(e.getEntity());
-
-            long cl = ((cool1.getOrDefault(p.getUniqueId(), 0L) /1000)+1) - (System.currentTimeMillis()/1000);
-            if (cl > 0) { return; }
-            cool1.put(p.getUniqueId(), System.currentTimeMillis());
-
             if (SpectatorHandler.isSpectator(p)) {
                 e.setCancelled(true);
+
+                long cl = ((cool1.getOrDefault(p.getUniqueId(), 0L) /1000)+1) - (System.currentTimeMillis()/1000);
+                if (cl > 0) { return; }
+                cool1.put(p.getUniqueId(), System.currentTimeMillis());
+
                 p.sendMessage(lang.prefix + lang.SpectatorNotAllowed);
             }
         }

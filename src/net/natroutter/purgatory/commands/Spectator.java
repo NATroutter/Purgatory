@@ -51,6 +51,7 @@ public class Spectator extends Command {
 
             p.getInventory().clear();
             StringHandler msg = new StringHandler(lang.SpectatorModeToggled).setPrefix(lang.prefix);
+            SpectatorHandler.clean(p);
             if (data.IsSpectator()) {
                 data.setSpectator(false);
                 SpectatorHandler.spectatorMode(p, false);

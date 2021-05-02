@@ -13,34 +13,34 @@ public class Lang {
     public String noPerm = "§7You do not have permission to do this";
     public String InvalidArgs = "§7Invalid command arguments";
     public String ToomanyArgs = "§7Too many command arguments";
-    public String bannedOnly = "§7You can\u0027t use this because you are not banned";
-    public String notBannedOnly = "§7You can\u0027t use this because you are banned";
-    public String NotEnoughItems = "§7You don\u0027t have enough items in your inventory!";
+    public String bannedOnly = "§7You can't use this because you are not banned";
+    public String notBannedOnly = "§7You can't use this because you are banned";
+    public String NotEnoughItems = "§7You don't have enough items in your inventory!";
     public String YouSold = "§7You sold §c{amount}§7x §c{item} §7for §c{price}";
-    public String NotEnoughMoney = "§7You don\u0027t have enough money!";
+    public String NotEnoughMoney = "§7You don't have enough money!";
     public String BanShorten = "§7Your ban has been shortened!";
     public String Unbanned = "§7Your have been unbanned!";
     public String InvalidPlayer = "§7Invalid player";
     public String InvalidAmount = "§7Invalid amount";
     public String maximumBalance = "§7Maximum balance is {max}";
-    public String NoNegativeBalance = "§7Balance can\u0027t be negative";
-    public String BalanceAdded = "§7Added §c{balance} §7to §c{name}\u0027s §7balance";
-    public String BalanceRemoved = "§7Removed §c{balance} §7from §c{name}\u0027s §7balance";
-    public String BalanceSet = "§c{name}\u0027s §7balance set to §c{balance}";
-    public String BalanceReset = "§c{name}\u0027s §7balance rested!";
+    public String NoNegativeBalance = "§7Balance can't be negative";
+    public String BalanceAdded = "§7Added §c{balance} §7to §c{name}'s §7balance";
+    public String BalanceRemoved = "§7Removed §c{balance} §7from §c{name}'s §7balance";
+    public String BalanceSet = "§c{name}'s §7balance set to §c{balance}";
+    public String BalanceReset = "§c{name}'s §7balance rested!";
     public String FailedToAlterBalance = "§7Failed to alter balance!";
-    public String ShopOpenCooldown = "§7I\u0027m busy right now...";
+    public String ShopOpenCooldown = "§7I'm busy right now...";
     public String NotBanned = "§7You are not banned!";
-    public String SpectatorNotAllowed = "§7You can\u0027t do that while spectating!";
-    public String SpectateSwitchCooldown = "§7You can\u0027t switch spectator mode so quickly wait {cooldown}!";
+    public String SpectatorNotAllowed = "§7You can't do that while spectating!";
+    public String SpectateSwitchCooldown = "§7You can't switch spectator mode so quickly wait {cooldown}!";
     public String SpectatorModeToggled = "§7Spectator mode: §c{status}";
     public String AbilityIsOnCooldown = "§7This ability is not cooldown wait §c{cooldown}";
     public String AlreadyHaveThisItem = "§7You already have this ability item in your inventory!";
     public String AbilityActivated = "§7Activated ability §c{ability} §7on player §c{player}";
-    public String NoAbilityOnSpectator = "§7Abilities can\u0027t be activated to other spectators";
-    public String NoPermToAbility = "§7You don\u0027t have permissions to this ability";
+    public String NoAbilityOnSpectator = "§7Abilities can't be activated to other spectators";
+    public String NoPermToAbility = "§7You don't have permissions to this ability";
     public String AbilitySafeCooldown = "§c{player} §7is on safe cooldown for {cooldown}";
-    public String AbilityProtectedArea = "§7You can\u0027t use abilities in protected areas!";
+    public String AbilityProtectedArea = "§7You can't use abilities in protected areas!";
     public String SpawnSet = "§7Spawn has been set to your location!";
     public String TeleportedToSpawn = "§7You have been teleported to spawn!";
     public String SpawnNotSet = "§7Spawn is not set";
@@ -61,7 +61,7 @@ public class Lang {
     public List<String> Permaban_kickmessage = new ArrayList<String>() {{
         add("                    §4§lPurgatory               ");
         add("         §7You are permanently banned           ");
-        add("§7so you don\u0027t have permissions to use purgatory");
+        add("§7so you don't have permissions to use purgatory");
     }};
 
     public List<String> configFail_kickmessage = new ArrayList<String>() {{
@@ -153,28 +153,28 @@ public class Lang {
         public String scrambler_permission = "purgatory.abilities.scrambler";
         public Integer scrambler_cooldown = 120;
         public List<String> scrambler_lore = new ArrayList<String>() {{
-            add("§7Scramble target\u0027s inventory");
+            add("§7Scramble target's inventory");
         }};
 
         public String superScrambler_name = "§4§lSuper Scrambler";
         public String superScrambler_permission = "purgatory.abilities.superscrambler";
         public Integer superScrambler_cooldown = 300;
         public List<String> superScrambler_lore = new ArrayList<String>() {{
-            add("§7Scramble target\u0027s inventory every 0.5 seconds for 5 seconds");
+            add("§7Scramble target's inventory every 0.5 seconds for 5 seconds");
         }};
 
         public String dropper_name = "§4§lDropper";
         public String dropper_permission = "purgatory.abilities.dropper";
         public Integer dropper_cooldown = 300;
         public List<String> dropper_lore = new ArrayList<String>() {{
-            add("§7Drops random item from target\u0027s hotbar");
+            add("§7Drops random item from target's hotbar");
         }};
 
         public String freesholves_name = "§4§lFree shovel";
         public String freesholves_permission = "purgatory.abilities.freesholves";
         public Integer freesholves_cooldown = 120;
         public List<String> freesholves_lore = new ArrayList<String>() {{
-            add("§7Fills target\u0027s inventory with wooden shovels");
+            add("§7Fills target's inventory with wooden shovels");
         }};
 
         public String thief_name = "§4§lThief";

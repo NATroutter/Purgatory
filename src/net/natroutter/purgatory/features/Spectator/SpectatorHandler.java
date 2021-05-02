@@ -31,12 +31,16 @@ public class SpectatorHandler {
         return data.IsSpectator();
     }
 
-    public static void spectatorMode(BasePlayer p, boolean state) {
+    public static void clean(BasePlayer p) {
         p.setFoodLevel(20);
         p.setHealth(20);
         p.getInventory().clear();
         p.getActivePotionEffects().forEach(e->{p.removePotionEffect(e.getType());});
+    }
+
+    public static void spectatorMode(BasePlayer p, boolean state) {
         if (state) {
+            clean(p);
             p.setGameMode(GameMode.ADVENTURE);
             p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0, false, false));
             p.getEquipment().setHelmet(Items.TrollerHelmet());

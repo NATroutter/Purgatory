@@ -61,8 +61,8 @@ public class AbilityHandler implements Listener {
     private static final AbilityItem dropper_item = new AbilityItem("Dropper", Material.DROPPER, ab.dropper_name, ab.dropper_lore);
     private static final AbilityItem freeshovels_item = new AbilityItem("Freeshovels", Material.WOODEN_SHOVEL, ab.freesholves_name, ab.freesholves_lore);
     private static final AbilityItem thief_item = new AbilityItem("Thief", Material.GOLD_NUGGET, ab.thief_name, ab.thief_lore);
-    private static final AbilityItem oreswap = new AbilityItem("OreSwap", Material.IRON_ORE, ab.oreswap_name, ab.oreswap_lore);
-    private static final AbilityItem slowfall = new AbilityItem("SlowFall", Material.FEATHER, ab.slowfall_name, ab.slowfall_lore);
+    private static final AbilityItem oreswap_item = new AbilityItem("OreSwap", Material.IRON_ORE, ab.oreswap_name, ab.oreswap_lore);
+    private static final AbilityItem slowfall_item = new AbilityItem("SlowFall", Material.FEATHER, ab.slowfall_name, ab.slowfall_lore);
 
     //register abilities
     public static void RegisterAbilities() {
@@ -74,6 +74,14 @@ public class AbilityHandler implements Listener {
         abilities.add(new Paralysis(paralysis_item, ab.paralysis_cooldown, ab.paralysis_permission));
         abilities.add(new Speed(speed_item, ab.sleep_cooldown, ab.sleep_permission));
         abilities.add(new JumpBoost(jumpboost_item, ab.jumpboost_cooldown, ab.jumpboost_permission));
+        abilities.add(new LagStick(lagstick_item, ab.lagstick_cooldown, ab.lagstick_permission));
+        abilities.add(new Scrambler(scrambler_item, ab.scrambler_cooldown, ab.scrambler_permission));
+        abilities.add(new SuperScrambler(superscrabler_item, ab.scrambler_cooldown, ab.superScrambler_permission));
+        abilities.add(new Dropper(dropper_item, ab.dropper_cooldown, ab.dropper_permission));
+        abilities.add(new FreeShovels(freeshovels_item, ab.freesholves_cooldown, ab.freesholves_permission));
+        abilities.add(new Thief(thief_item, ab.thief_cooldown, ab.thief_permission));
+        abilities.add(new OreSwap(oreswap_item, ab.oreswap_cooldown, ab.oreswap_permission));
+        abilities.add(new SlowFall(slowfall_item, ab.slowfall_cooldown, ab.slowfall_permission));
     }
 
 

@@ -9,6 +9,8 @@ import net.natroutter.purgatory.commands.Spectator;
 import net.natroutter.purgatory.features.ChatFormater;
 import net.natroutter.purgatory.features.Spectator.SpectatorEvents;
 import net.natroutter.purgatory.features.abilities.AbilityHandler;
+import net.natroutter.purgatory.features.abilities.AbilityListeners;
+import net.natroutter.purgatory.features.abilities.ability.Thief;
 import net.natroutter.purgatory.handlers.Hooks;
 import net.natroutter.purgatory.handlers.LitebansHandler;
 import net.natroutter.purgatory.commands.PurgatoryCMD;
@@ -42,15 +44,16 @@ public class Purgatory extends JavaPlugin {
     public static YamlDatabase getYamlDatabase() { return yamlDatabase; }
     public static Hooks getHooks() { return hooks; }
 
-    private static FileManager cfgM;
-    private static FileManager langM;
-
     //TODO
     //lisää kompassi
     //lisää leluja
     //ime hirkun nahkakompassia
 
-    public static void loadConfigs() {
+    @Override
+    public void onEnable() {
+        instance = this;
+        NATLibs libs = new NATLibs(this);
+
         //Register & load configs
         FileManager cfgM = new FileManager(instance, ConfType.Config);
         config = cfgM.load(Config.class);
@@ -58,14 +61,6 @@ public class Purgatory extends JavaPlugin {
         //Register & load language
         FileManager langM = new FileManager(instance, ConfType.Lang);
         lang = langM.load(Lang.class);
-    }
-
-    @Override
-    public void onEnable() {
-        instance = this;
-        NATLibs libs = new NATLibs(this);
-
-        loadConfigs();
 
         //Create litebans handler
         lbh = new LitebansHandler(this, config);
@@ -86,7 +81,8 @@ public class Purgatory extends JavaPlugin {
                 NpcHandler.class,
                 SpectatorEvents.class,
                 AbilityHandler.class,
-                ChatFormater.class
+                ChatFormater.class,
+                AbilityListeners.class
         );
 
         //register commands
