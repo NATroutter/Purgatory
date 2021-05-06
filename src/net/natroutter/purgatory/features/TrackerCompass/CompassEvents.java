@@ -4,6 +4,7 @@ import net.natroutter.natlibs.objects.BaseItem;
 import net.natroutter.natlibs.objects.BasePlayer;
 import net.natroutter.natlibs.utilities.StringHandler;
 import net.natroutter.purgatory.Purgatory;
+import net.natroutter.purgatory.handlers.AdminHandler;
 import net.natroutter.purgatory.utilities.Items;
 import net.natroutter.purgatory.utilities.Lang;
 import org.bukkit.Location;
@@ -29,6 +30,7 @@ public class CompassEvents implements Listener {
     @EventHandler
     public void onMove(PlayerMoveEvent e) {
         BasePlayer p = BasePlayer.from(e.getPlayer());
+        if (AdminHandler.isAdmin(p)) {return;}
         if (Trackers.getOrDefault(p.getUniqueId(), false)) {
             for (Entity ent : p.getNearbyEntities(500, 500, 500)) {
                 if (!(ent instanceof Player)) { continue; }
@@ -55,6 +57,8 @@ public class CompassEvents implements Listener {
         if (!e.getAction().name().startsWith("RIGHT_CLICK")) {return;}
 
         BasePlayer p = BasePlayer.from(e.getPlayer());
+        if (AdminHandler.isAdmin(p)) {return;}
+
         BaseItem item = BaseItem.from(e.getItem());
 
         if (item.matches(Items.TrackerCompass())) {

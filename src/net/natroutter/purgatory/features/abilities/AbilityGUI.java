@@ -10,7 +10,7 @@ import net.natroutter.purgatory.utilities.Lang;
 import net.natroutter.purgatory.utilities.Utils;
 import org.bukkit.inventory.ItemStack;
 
-public class AbilityGui {
+public class AbilityGUI {
 
     private static final Lang lang = Purgatory.getLang();
 

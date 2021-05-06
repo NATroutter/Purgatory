@@ -36,7 +36,7 @@ public class Utils {
     public static Integer TryParseInt(String val) {
         try {
             return Integer.parseInt(val);
-        }catch (Exception ignored) {}
+        } catch (Exception ignored) {}
         return null;
     }
 

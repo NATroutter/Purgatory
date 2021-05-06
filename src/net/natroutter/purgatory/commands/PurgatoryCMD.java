@@ -3,10 +3,13 @@ package net.natroutter.purgatory.commands;
 import net.natroutter.natlibs.handlers.Database.YamlDatabase;
 import net.natroutter.natlibs.objects.BasePlayer;
 import net.natroutter.natlibs.utilities.StringHandler;
+import net.natroutter.purgatory.handlers.AdminHandler;
 import net.natroutter.purgatory.handlers.EcoHandler;
 import net.natroutter.purgatory.handlers.LitebansHandler;
 import net.natroutter.purgatory.Purgatory;
 import net.natroutter.purgatory.handlers.NpcHandler;
+import net.natroutter.purgatory.handlers.database.PlayerDataHandler;
+import net.natroutter.purgatory.handlers.database.tables.PlayerData;
 import net.natroutter.purgatory.utilities.Config;
 import net.natroutter.purgatory.utilities.Lang;
 import net.natroutter.purgatory.utilities.Utils;
@@ -67,15 +70,10 @@ public class PurgatoryCMD extends Command {
                 } else {
                     p.sendMessage(lang.prefix + lang.noPerm);
                 }
-            } else if (args[0].equalsIgnoreCase("spawn")) {
-                if (p.hasPermission("purgatory.spawn")) {
-                    Location loc = database.getLocation("General", "Spawn");
-                    if (loc != null) {
-                        p.sendMessage(lang.prefix + lang.TeleportedToSpawn);
-                        p.teleport(loc);
-                    } else {
-                        p.sendMessage(lang.prefix + lang.SpawnNotSet);
-                    }
+            } else if (args[0].equalsIgnoreCase("admin")) {
+                if (p.hasPermission("purgatory.admin")) {
+                    AdminHandler.ToggleAdminMode(p);
+
                 } else {
                     p.sendMessage(lang.prefix + lang.noPerm);
                 }
@@ -89,6 +87,12 @@ public class PurgatoryCMD extends Command {
                 } else {
                     p.sendMessage(lang.prefix + lang.noPerm);
                 }
+            } else if (args[0].equalsIgnoreCase("credits")) {
+                p.sendMessage(" ");
+                p.sendMessage("§8§l» §7Plugin made by: §cNATroutter");
+                p.sendMessage("§8§l» §7Website: https://NATroutter.net");
+                p.sendMessage(" ");
+
             }
 
         } else if (args.length == 2) {
@@ -203,7 +207,7 @@ public class PurgatoryCMD extends Command {
     }
 
     List<String> firstArgs = Arrays.asList(
-            "eco", "npcrefresh", "spawn", "setspawn", "setshop"
+            "eco", "npcrefresh", "setspawn", "setshop", "admin", "credits"
     );
 
     List<String> EcoArgs = Arrays.asList(

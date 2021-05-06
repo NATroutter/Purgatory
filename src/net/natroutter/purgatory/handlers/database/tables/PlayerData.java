@@ -20,12 +20,16 @@ public class PlayerData {
     @DatabaseField(canBeNull = false)
     public Long spectateCooldown;
 
+    @DatabaseField(canBeNull = false)
+    public Boolean adminMode;
+
     public PlayerData() {}
-    public PlayerData(UUID uuid, Double balance, Boolean isSpectator, Long spectateCooldown) {
+    public PlayerData(UUID uuid, Double balance, Boolean isSpectator, Long spectateCooldown, Boolean adminMode) {
         this.uuid = uuid;
         this.balance = balance;
         this.isSpectator = isSpectator;
         this.spectateCooldown = spectateCooldown;
+        this.adminMode = adminMode;
     }
 
     public UUID getUUID() {
@@ -36,6 +40,7 @@ public class PlayerData {
     }
     public Boolean IsSpectator() { return isSpectator; }
     public Long getSpectateCooldown() { return spectateCooldown; }
+    public Boolean getAdminMode() { return adminMode; }
 
     public void setUUID(UUID uuid) {
         this.uuid = uuid;
@@ -45,5 +50,6 @@ public class PlayerData {
     }
     public void setSpectator(boolean state) {this.isSpectator = state;}
     public void setSpectateCooldown(long value) {this.spectateCooldown = value;}
+    public void setAdminMode(boolean value) {this.adminMode = value;}
 
 }

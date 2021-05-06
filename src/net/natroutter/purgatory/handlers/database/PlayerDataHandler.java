@@ -45,7 +45,7 @@ public class PlayerDataHandler {
     }
 
     private static PlayerData DefaultPlayerData(UUID uuid) {
-        return new PlayerData(uuid, 0.0, true, 0L);
+        return new PlayerData(uuid, 0.0, true, 0L, false);
     }
 
 

@@ -3,7 +3,10 @@ package net.natroutter.purgatory.features.Spectator;
 import net.natroutter.natlibs.objects.BaseItem;
 import net.natroutter.natlibs.objects.BasePlayer;
 import net.natroutter.purgatory.Purgatory;
+import net.natroutter.purgatory.features.abilities.AbilityGUI;
+import net.natroutter.purgatory.features.abilities.settings.SettingsGUI;
 import net.natroutter.purgatory.features.bancheck.BanChecker;
+import net.natroutter.purgatory.handlers.AdminHandler;
 import net.natroutter.purgatory.handlers.NpcHandler;
 import net.natroutter.purgatory.handlers.database.PlayerDataHandler;
 import net.natroutter.purgatory.handlers.database.tables.PlayerData;
@@ -13,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
@@ -34,6 +38,7 @@ public class SpectatorEvents implements Listener {
         BasePlayer p = BasePlayer.from(e.getPlayer());
         PlayerData data = PlayerDataHandler.queryForID(p.getUniqueId());
         if (data == null) {return;}
+        if (data.getAdminMode()) {return;}
 
         if (!BanChecker.isBanned(p)) {
             SpectatorHandler.spectatorMode(p, data.IsSpectator());
@@ -54,13 +59,13 @@ public class SpectatorEvents implements Listener {
     public void onSpectatorInvClick(InventoryClickEvent e) {
         if (e.getWhoClicked() instanceof Player) {
             BasePlayer p = BasePlayer.from(e.getWhoClicked());
-            if (e.getCurrentItem() == null) { return; }
-            if (e.getCursor() == null) { return; }
-            BaseItem current = BaseItem.from(e.getCurrentItem());
-            BaseItem cursor = BaseItem.from(e.getCursor());
-            if (cursor.isSimilar(Items.TrollerHelmet()) || current.isSimilar(Items.TrollerHelmet())) {
-                e.setResult(Event.Result.DENY);
-                e.setCancelled(true);
+            if (AdminHandler.isAdmin(p)) {return;}
+            if (SpectatorHandler.isSpectator(p)) {
+                //if clicked slot is helmet slot
+                if (e.getSlot() == 39) {
+                    e.setResult(Event.Result.DENY);
+                    e.setCancelled(true);
+                }
             }
         }
     }
@@ -70,6 +75,7 @@ public class SpectatorEvents implements Listener {
     public void onSpectatorFoodChange(FoodLevelChangeEvent e) {
         if (e.getEntity() instanceof Player) {
             BasePlayer p = BasePlayer.from(e.getEntity());
+            if (AdminHandler.isAdmin(p)) {return;}
             if (SpectatorHandler.isSpectator(p)) {
                 e.setCancelled(true);
                 e.setFoodLevel(20);
@@ -81,6 +87,7 @@ public class SpectatorEvents implements Listener {
     public void onSpectatorDamage(EntityDamageEvent e) {
         if (e.getEntity() instanceof Player) {
             BasePlayer p = BasePlayer.from(e.getEntity());
+            if (AdminHandler.isAdmin(p)) {return;}
             if (SpectatorHandler.isSpectator(p)) {
                 e.setCancelled(true);
                 p.sendMessage(lang.prefix + lang.SpectatorNotAllowed);
@@ -92,6 +99,7 @@ public class SpectatorEvents implements Listener {
     public void onSpectatorDamageEntity(EntityDamageByEntityEvent e) {
         if (e.getDamager() instanceof Player) {
             BasePlayer p = BasePlayer.from(e.getDamager());
+            if (AdminHandler.isAdmin(p)) {return;}
             if (SpectatorHandler.isSpectator(p)) {
                 e.setCancelled(true);
                 p.sendMessage(lang.prefix + lang.SpectatorNotAllowed);
@@ -102,6 +110,7 @@ public class SpectatorEvents implements Listener {
     @EventHandler
     public void onSpectatorBreakBlock(BlockBreakEvent e) {
         BasePlayer p = BasePlayer.from(e.getPlayer());
+        if (AdminHandler.isAdmin(p)) {return;}
         if (SpectatorHandler.isSpectator(p)) {
             e.setCancelled(true);
             p.sendMessage(lang.prefix + lang.SpectatorNotAllowed);
@@ -111,6 +120,7 @@ public class SpectatorEvents implements Listener {
     @EventHandler
     public void onSpectatorPlaceBlock(BlockPlaceEvent e) {
         BasePlayer p = BasePlayer.from(e.getPlayer());
+        if (AdminHandler.isAdmin(p)) {return;}
         if (SpectatorHandler.isSpectator(p)) {
             e.setCancelled(true);
             p.sendMessage(lang.prefix + lang.SpectatorNotAllowed);
@@ -122,6 +132,7 @@ public class SpectatorEvents implements Listener {
     public void onSpectatorPickup(EntityPickupItemEvent e) {
         if (e.getEntity() instanceof Player) {
             BasePlayer p = BasePlayer.from(e.getEntity());
+            if (AdminHandler.isAdmin(p)) {return;}
             if (SpectatorHandler.isSpectator(p)) {
                 e.setCancelled(true);
 
@@ -138,8 +149,24 @@ public class SpectatorEvents implements Listener {
     @EventHandler
     public void onSpectatorInteract(PlayerInteractEvent e) {
         BasePlayer p = BasePlayer.from(e.getPlayer());
+        if (AdminHandler.isAdmin(p)) {return;}
         if (SpectatorHandler.isSpectator(p)) {
             e.setCancelled(true);
+
+            if (!e.hasItem()) {return;}
+            Action act = e.getAction();
+            BaseItem item = BaseItem.from(e.getItem());
+
+            if (act.equals(Action.RIGHT_CLICK_BLOCK) || act.equals(Action.RIGHT_CLICK_AIR)) {
+                if (item.isSimilar(Items.abilityBox())) {
+                    e.setCancelled(true);
+                    AbilityGUI.show(p);
+                } else if (item.isSimilar(Items.Settings())) {
+                    e.setCancelled(true);
+                    SettingsGUI.show(p);
+                }
+            }
+
         }
     }
 
@@ -147,6 +174,7 @@ public class SpectatorEvents implements Listener {
     @EventHandler
     public void onSpectatorInteractEntity(PlayerInteractEntityEvent e) {
         BasePlayer p = BasePlayer.from(e.getPlayer());
+        if (AdminHandler.isAdmin(p)) {return;}
         if (SpectatorHandler.isSpectator(p)) {
             e.setCancelled(true);
             if (!NpcHandler.isNpc(e.getRightClicked().getUniqueId())) {

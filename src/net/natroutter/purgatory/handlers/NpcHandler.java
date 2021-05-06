@@ -98,6 +98,7 @@ public class NpcHandler implements Listener {
     public void onInteract(PlayerInteractEntityEvent e) {
         Entity ent = e.getRightClicked();
         BasePlayer p = BasePlayer.from(e.getPlayer());
+        if (AdminHandler.isAdmin(p)) {return;}
         if (ent instanceof Villager) {
             if (isNpc(ent.getUniqueId())) {
                 e.setCancelled(true);
@@ -140,6 +141,7 @@ public class NpcHandler implements Listener {
     @EventHandler
     public void onMove(PlayerMoveEvent e) {
         BasePlayer p = BasePlayer.from(e.getPlayer());
+        if (AdminHandler.isAdmin(p)) {return;}
         if (SpectatorHandler.isSpectator(p)) { return; }
 
         for (Entity ent : p.getNearbyEntities(5, 5, 5)) {

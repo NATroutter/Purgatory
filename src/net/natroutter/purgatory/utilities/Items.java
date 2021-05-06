@@ -19,6 +19,58 @@ public class Items {
     private final static Lang lang = Purgatory.getLang();
     private final static Config config = Purgatory.getCfg();
 
+    public static BaseItem RemoveHelmet() {
+        BaseItem item = new BaseItem(Material.BARRIER);
+        item.setDisplayName(lang.settings.removehead_name);
+        item.setLore(lang.settings.removehead_lore);
+        item.addItemFlags(ItemFlag.values());
+        return item;
+    }
+
+    public static BaseItem WearableHead(String name, List<String> lore, String texture) {
+        BaseItem item = new SkullCreator().Create(name, texture);
+        item.setLore(lore);
+        item.addItemFlags(ItemFlag.values());
+        return item;
+    }
+
+    public static BaseItem Visibility(boolean visible) {
+        BaseItem item = new BaseItem(visible ? Material.SLIME_BALL : Material.MAGMA_CREAM);
+        item.setDisplayName(lang.settings.Visibility);
+        List<String> lore = new ArrayList<>();
+        for (String line : lang.settings.Visibility_lore) {
+            StringHandler str = new StringHandler(line);
+            str.replaceAll("{status}", visible ? lang.settings.VisibilityStatues.Hidden : lang.settings.VisibilityStatues.Shown);
+            lore.add(str.build());
+        }
+        item.setLore(lore);
+        item.addItemFlags(ItemFlag.values());
+        return item;
+    }
+
+    public static BaseItem ComplateVisibility(boolean visible) {
+        BaseItem item = new BaseItem(visible ? Material.SLIME_BALL : Material.MAGMA_CREAM);
+        item.setDisplayName(lang.settings.Complete_Visibility);
+
+        List<String> lore = new ArrayList<>();
+        for (String line : lang.settings.Complete_Visibility_lore) {
+            StringHandler str = new StringHandler(line);
+            str.replaceAll("{status}", visible ? lang.settings.VisibilityStatues.Hidden : lang.settings.VisibilityStatues.Shown);
+            lore.add(str.build());
+        }
+        item.setLore(lore);
+        item.addItemFlags(ItemFlag.values());
+        return item;
+    }
+
+    public static BaseItem Settings() {
+        BaseItem item = new BaseItem(Material.KNOWLEDGE_BOOK);
+        item.setDisplayName(lang.settings.item);
+        item.setLore(lang.settings.item_lore);
+        item.addItemFlags(ItemFlag.values());
+        return item;
+    }
+
     public static BaseItem TrackerCompass() {
         BaseItem item = new BaseItem(Material.COMPASS);
         item.setDisplayName(lang.items.TrackerCompass_name);
@@ -31,14 +83,6 @@ public class Items {
         BaseItem item = new BaseItem(Material.ENDER_CHEST);
         item.setDisplayName(lang.items.abilities_name);
         item.setLore(lang.items.abilities_lore);
-        item.addItemFlags(ItemFlag.values());
-        return item;
-    }
-
-    public static BaseItem TrollerHelmet() {
-        BaseItem item = new BaseItem(Material.CARVED_PUMPKIN);
-        item.setDisplayName(lang.items.TrollerHelmet_name);
-        item.setLore(lang.items.TrollerHelmet_lore);
         item.addItemFlags(ItemFlag.values());
         return item;
     }

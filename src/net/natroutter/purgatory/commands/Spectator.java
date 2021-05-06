@@ -5,8 +5,10 @@ import net.natroutter.natlibs.utilities.StringHandler;
 import net.natroutter.purgatory.Purgatory;
 import net.natroutter.purgatory.features.bancheck.BanChecker;
 import net.natroutter.purgatory.features.Spectator.SpectatorHandler;
+import net.natroutter.purgatory.handlers.AdminHandler;
 import net.natroutter.purgatory.handlers.database.PlayerDataHandler;
 import net.natroutter.purgatory.handlers.database.tables.PlayerData;
+import net.natroutter.purgatory.utilities.Config;
 import net.natroutter.purgatory.utilities.Lang;
 import net.natroutter.purgatory.utilities.Utils;
 import org.bukkit.command.Command;
@@ -16,11 +18,13 @@ import org.bukkit.entity.Player;
 public class Spectator extends Command {
 
     private static final Lang lang = Purgatory.getLang();
+    private static final Config config = Purgatory.getCfg();
+
 
     static Integer cooldown = 10;
 
     public Spectator() {
-        super("");
+        super(config.spectatorCommand);
     }
 
     @Override
@@ -32,6 +36,11 @@ public class Spectator extends Command {
         BasePlayer p = BasePlayer.from(sender);
 
         if (args.length == 0) {
+            if (AdminHandler.isAdmin(p)) {
+                p.sendMessage(lang.prefix + lang.CantInAdminMode);
+                return false;
+            }
+
             if (BanChecker.isBanned(p)) {
                 p.sendMessage(lang.prefix + lang.notBannedOnly);
                 return false;

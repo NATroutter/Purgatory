@@ -5,6 +5,7 @@ import net.natroutter.natlibs.handlers.Database.YamlDatabase;
 import net.natroutter.natlibs.handlers.EventManager;
 import net.natroutter.natlibs.handlers.FileManager;
 import net.natroutter.natlibs.utilities.Utilities;
+import net.natroutter.purgatory.commands.Spawn;
 import net.natroutter.purgatory.commands.Spectator;
 import net.natroutter.purgatory.features.ChatFormater;
 import net.natroutter.purgatory.features.Spectator.SpectatorEvents;
@@ -76,7 +77,6 @@ public class Purgatory extends JavaPlugin {
                 BanChecker.class,
                 NpcHandler.class,
                 SpectatorEvents.class,
-                AbilityHandler.class,
                 ChatFormater.class,
                 AbilityListeners.class,
                 CompassEvents.class
@@ -85,7 +85,8 @@ public class Purgatory extends JavaPlugin {
         //register commands
         evm.RegisterCommands(
                 PurgatoryCMD.class,
-                Spectator.class
+                Spectator.class,
+                Spawn.class
         );
 
 
