@@ -11,8 +11,8 @@ public class Config {
     public Integer MaxBalance = 100000000;
     public Integer SafeTimeSeconds = 300;
     public String SpawnRegionName = "spawn";
-
     public String spectatorCommand = "spectator";
+    public Integer ShopNpcID = 0;
 
     public settings settings = new settings();
     public static class settings {

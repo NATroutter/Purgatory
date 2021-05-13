@@ -97,12 +97,11 @@ public class Purgatory extends JavaPlugin {
             w.setGameRuleValue("spawnRadius", "0");
         }
 
-        NpcHandler.spawnAll();
 
     }
 
     @Override
     public void onDisable() {
-        NpcHandler.despawnAll();
+        instance = null;
     }
 }

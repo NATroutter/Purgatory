@@ -1,5 +1,12 @@
 package net.natroutter.purgatory.handlers;
 
+import net.citizensnpcs.api.CitizensAPI;
+import net.citizensnpcs.api.event.NPCLeftClickEvent;
+import net.citizensnpcs.api.event.NPCRightClickEvent;
+import net.citizensnpcs.api.event.NPCSpawnEvent;
+import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.api.trait.Trait;
+import net.citizensnpcs.trait.LookClose;
 import net.natroutter.natlibs.handlers.Database.YamlDatabase;
 import net.natroutter.natlibs.objects.BasePlayer;
 import net.natroutter.purgatory.Purgatory;
@@ -9,6 +16,7 @@ import net.natroutter.purgatory.features.shop.ShopGUI;
 import net.natroutter.purgatory.features.bancheck.BanData;
 import net.natroutter.purgatory.utilities.Config;
 import net.natroutter.purgatory.utilities.Lang;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -29,93 +37,48 @@ public class NpcHandler implements Listener {
     private final static LitebansHandler lbh = Purgatory.getLitebans();
     private final static YamlDatabase database = Purgatory.getYamlDatabase();
 
-    private static HashMap<UUID, Villager> npcs = new HashMap<>();
-
     int cooldown = 3;
     public static HashMap<UUID, Long> cooldowns = new HashMap<>();
 
-    private static Villager shop;
-
-
-    public static void spawnAll() {
-        Location shopLoc = database.getLocation("General", "ShopLoc");
-        if (shopLoc == null) {return;}
-        shop = spawn(shopLoc, lang.shop.npc_name, Villager.Type.SAVANNA, Villager.Profession.WEAPONSMITH);
-    }
-
-    public static void despawnAll() {
-        Location shopLoc = database.getLocation("General", "ShopLoc");
-        if (shopLoc == null) {return;}
-
-        for (Map.Entry<UUID, Villager> ents : npcs.entrySet()) {
-            despawn(ents.getKey());
-        }
-
-        if (shopLoc.getWorld() == null) {return;}
-        for (Entity e : shopLoc.getWorld().getNearbyEntities(shopLoc, 3, 3, 3)) {
-
-            if (!e.getType().equals(EntityType.VILLAGER)) { continue; }
-            if (!e.isCustomNameVisible()) { continue; }
-
-            e.remove();
-        }
-    }
-
-    public static void refresh() {
-        despawnAll();spawnAll();
-    }
+    public static NPC getShopNPC() {
+        return CitizensAPI.getNPCRegistry().getById(config.ShopNpcID);
+    };
 
     public static boolean isNpc(UUID id) {
-        return npcs.containsKey(id);
-    }
-
-    public static Villager spawn(Location loc, String name, Villager.Type type, Villager.Profession prof) {
-        if (loc == null) {return null;}
-        if (loc.getWorld() == null) {return null;}
-        Villager ent = (Villager)loc.getWorld().spawnEntity(loc, EntityType.VILLAGER);
-        ent.setVillagerLevel(5);
-        ent.setVillagerType(type);
-        ent.setProfession(prof);
-        ent.setGravity(false);
-        ent.setAI(false);
-        ent.setSilent(true);
-        ent.setCustomNameVisible(true);
-        ent.setCustomName(name);
-        npcs.put(ent.getUniqueId(), ent);
-        return ent;
-    }
-
-    public static void despawn(UUID id) {
-        Villager ent = npcs.getOrDefault(id, null);
-        if (ent != null) {
-            if (ent.isValid()) {
-                ent.remove();
+        NPC shop = getShopNPC();
+        if (shop != null) {
+            if (shop.getEntity().getUniqueId().equals(id)) {
+                return true;
             }
         }
+        return false;
     }
 
     @EventHandler
-    public void onInteract(PlayerInteractEntityEvent e) {
-        Entity ent = e.getRightClicked();
-        BasePlayer p = BasePlayer.from(e.getPlayer());
-        if (AdminHandler.isAdmin(p)) {return;}
-        if (ent instanceof Villager) {
-            if (isNpc(ent.getUniqueId())) {
-                e.setCancelled(true);
+    public void onInteract(NPCRightClickEvent e) {
+        BasePlayer p = BasePlayer.from(e.getClicker());
+        if (AdminHandler.isAdmin(p)) {
+            p.sendMessage(lang.prefix + lang.CantInAdminMode);
+            return;
+        }
+        if (SpectatorHandler.isSpectator(p)) {
+            p.sendMessage(lang.prefix + lang.bannedOnly);
+            return;
+        }
 
-                if (cooldowns.containsKey(p.getUniqueId())) {
-                    long seconds = ((cooldowns.get(p.getUniqueId())/1000)+cooldown) - (System.currentTimeMillis()/1000);
-                    if (seconds > 0) {
-                        p.sendMessage(lang.prefix + lang.ShopOpenCooldown);
-                        return;
-                    }
-                }
-                cooldowns.put(p.getUniqueId(), System.currentTimeMillis());
+        NPC shop = getShopNPC();
+        if (shop != null) {
 
-                if (ent.getUniqueId().equals(shop.getUniqueId())) {
-                    openShop(p);
+            if (cooldowns.containsKey(p.getUniqueId())) {
+                long seconds = ((cooldowns.get(p.getUniqueId())/1000)+cooldown) - (System.currentTimeMillis()/1000);
+                if (seconds > 0) {
+                    p.sendMessage(lang.prefix + lang.ShopOpenCooldown);
+                    return;
                 }
             }
+            cooldowns.put(p.getUniqueId(), System.currentTimeMillis());
+            openShop(p);
+
         }
     }
 
@@ -135,40 +98,6 @@ public class NpcHandler implements Listener {
             }
         } else {
             p.sendMessage(lang.prefix + lang.SpectatorNotAllowed);
-        }
-    }
-
-    @EventHandler
-    public void onMove(PlayerMoveEvent e) {
-        BasePlayer p = BasePlayer.from(e.getPlayer());
-        if (AdminHandler.isAdmin(p)) {return;}
-        if (SpectatorHandler.isSpectator(p)) { return; }
-
-        for (Entity ent : p.getNearbyEntities(5, 5, 5)) {
-
-            if (!ent.getType().equals(EntityType.VILLAGER)) { continue; }
-            if (!ent.isCustomNameVisible()) { continue; }
-            if (!isNpc(ent.getUniqueId())) { continue; }
-
-            ent.teleport(ent.getLocation().setDirection(p.getLocation().subtract(ent.getLocation()).toVector()));
-        }
-    }
-
-    @EventHandler
-    public void onDamageByEntity(EntityDamageByEntityEvent e) {
-        if (e.getEntity() instanceof Villager) {
-            if (npcs.containsKey(e.getEntity().getUniqueId())) {
-                e.setCancelled(true);
-            }
-        }
-    }
-
-    @EventHandler
-    public void onDamage(EntityDamageEvent e) {
-        if (e.getEntity() instanceof Villager) {
-            if (npcs.containsKey(e.getEntity().getUniqueId())) {
-                e.setCancelled(true);
-            }
         }
     }
 

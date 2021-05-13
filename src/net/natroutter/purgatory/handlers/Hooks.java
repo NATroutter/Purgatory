@@ -10,13 +10,24 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Hooks {
 
+    public Citizens_Hook citizens;
     public WorldGuard_Hook worldguard;
     public vault_Hook vault;
 
     public Hooks(JavaPlugin pl) {
+        citizens = new Citizens_Hook(pl, new Hook("Citizens"));
         worldguard = new WorldGuard_Hook(pl, new Hook("WorldGuard"));
         vault = new vault_Hook(pl, new Hook("Vault"));
+    }
 
+    public static class Citizens_Hook {
+        private final Hook hook;
+        public Citizens_Hook(JavaPlugin pl, Hook hook) {
+            this.hook = hook;
+        }
+
+        public boolean isHooked() { return hook.Hooked; }
+        public Plugin getPlugin() { return hook.getPlugin(); }
     }
 
     public static class WorldGuard_Hook {

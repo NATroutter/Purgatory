@@ -53,13 +53,7 @@ public class PurgatoryCMD extends Command {
             helpMessage(p);
 
         } else if (args.length == 1) {
-            if (args[0].equalsIgnoreCase("npcrefresh")) {
-                if (p.hasPermission("purgatory.npcrefresh")) {
-                    NpcHandler.refresh();
-                } else {
-                    p.sendMessage(lang.prefix + lang.noPerm);
-                }
-            } else if (args[0].equalsIgnoreCase("setspawn")) {
+            if (args[0].equalsIgnoreCase("setspawn")) {
                 if (p.hasPermission("purgatory.setspawn")) {
                     Location loc = p.getLocation();
                     loc.setX(loc.getBlockX() + 0.5);
@@ -207,7 +201,7 @@ public class PurgatoryCMD extends Command {
     }
 
     List<String> firstArgs = Arrays.asList(
-            "eco", "npcrefresh", "setspawn", "setshop", "admin", "credits"
+            "eco", "setspawn", "setshop", "admin", "credits"
     );
 
     List<String> EcoArgs = Arrays.asList(
