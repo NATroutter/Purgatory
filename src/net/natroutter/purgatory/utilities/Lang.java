@@ -55,7 +55,7 @@ public class Lang {
     public String AdminModeToggled = "§7Adminmode: §c{status}";
     public String CantInAdminMode = "§7You cant do this while you are in adminmode!";
     public String YourBalance = "§7Your balance is §c{balance}";
-    public String OtherBalance = "§c{player}&7's balance is §c{balance}";
+    public String OtherBalance = "§c{player}§7's balance is §c{balance}";
 
     public statues statues = new statues();
     public static class statues {
