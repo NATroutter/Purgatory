@@ -13,6 +13,7 @@ import net.natroutter.purgatory.handlers.database.tables.PlayerData;
 import net.natroutter.purgatory.utilities.Config;
 import net.natroutter.purgatory.utilities.Lang;
 import net.natroutter.purgatory.utilities.Utils;
+import org.antlr.v4.runtime.misc.NotNull;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -25,6 +26,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+@SuppressWarnings("all")
 public class PurgatoryCMD extends Command {
 
     private final Lang lang = Purgatory.getLang();
@@ -71,27 +73,48 @@ public class PurgatoryCMD extends Command {
                 } else {
                     p.sendMessage(lang.prefix + lang.noPerm);
                 }
-            } else if (args[0].equalsIgnoreCase("setshop")) {
-                if (p.hasPermission("purgatory.setshop")) {
-                    Location loc = p.getLocation();
-                    loc.setX(loc.getBlockX() + 0.5);
-                    loc.setZ(loc.getBlockZ() + 0.5);
-                    database.saveLoc("General", "ShopLoc", loc);
-                    p.sendMessage(lang.prefix + lang.ShopSet);
+            } else if (args[0].equalsIgnoreCase("balance")) {
+                if (p.hasPermission("purgatory.balance")) {
+                    StringHandler msg = new StringHandler(lang.YourBalance);
+                    msg.setPrefix(lang.prefix);
+                    msg.replaceAll("{balance}", EcoHandler.getBalance(p.getUniqueId()));
+                    msg.send(p);
                 } else {
                     p.sendMessage(lang.prefix + lang.noPerm);
                 }
             } else if (args[0].equalsIgnoreCase("credits")) {
                 p.sendMessage(" ");
+                p.sendMessage("&c&l-----+ &4&lPurgatory &c&l+-----");
+                p.sendMessage(" ");
                 p.sendMessage("§8§l» §7Plugin made by: §cNATroutter");
                 p.sendMessage("§8§l» §7Website: https://NATroutter.net");
+                p.sendMessage(" ");
+                p.sendMessage("&c&l-----+ &4&lPurgatory &c&l+-----");
                 p.sendMessage(" ");
 
             }
 
         } else if (args.length == 2) {
-            p.sendMessage(lang.prefix + lang.InvalidArgs);
+            if (args[0].equalsIgnoreCase("balance")) {
 
+                if (p.hasPermission("purgatory.balance.other")) {
+                    OfflinePlayer target = Utils.getOfflinePlayer(args[1]);
+                    if (target == null) {
+                        p.sendMessage(lang.prefix + lang.InvalidPlayer);
+                        return false;
+                    }
+                    StringHandler msg = new StringHandler(lang.OtherBalance);
+                    msg.setPrefix(lang.prefix);
+                    msg.replaceAll("{balance}", EcoHandler.getBalance(target.getUniqueId()));
+                    msg.replaceAll("{player}", target.getName());
+                    msg.send(p);
+
+                } else {
+                    p.sendMessage(lang.prefix + lang.noPerm);
+                }
+            } else {
+                p.sendMessage(lang.prefix + lang.InvalidArgs);
+            }
         } else if (args.length == 3) {
             if (args[0].equalsIgnoreCase("eco")) {
                 if (!p.hasPermission("purgatory.eco")) {
@@ -200,21 +223,26 @@ public class PurgatoryCMD extends Command {
         return false;
     }
 
-    List<String> firstArgs = Arrays.asList(
-            "eco", "setspawn", "setshop", "admin", "credits"
-    );
-
-    List<String> EcoArgs = Arrays.asList(
-            "give", "take", "set", "reset"
-    );
-
-    List<String> empty = Collections.singletonList("");
-
-
     @Override
     public List<String> tabComplete(CommandSender sender, String alias, String[] args) throws IllegalArgumentException {
 
         if (args.length == 1) {
+
+            ArrayList<String> firstArgs = new ArrayList<>();
+            firstArgs.add("credits");
+            if (sender.hasPermission("purgatory.eco")) {
+                firstArgs.add("eco");
+            }
+            if (sender.hasPermission("purgatory.setspawn")) {
+                firstArgs.add("setspawn");
+            }
+            if (sender.hasPermission("purgatory.admin")) {
+                firstArgs.add("admin");
+            }
+            if (sender.hasPermission("purgatory.balance")) {
+                firstArgs.add("balance");
+            }
+
             List<String> shorted = new ArrayList<>();
             StringUtil.copyPartialMatches(args[0], firstArgs, shorted);
             Collections.sort(shorted);
@@ -222,21 +250,60 @@ public class PurgatoryCMD extends Command {
 
         } else if (args.length == 2) {
             if (args[0].equalsIgnoreCase("eco")) {
-                List<String> shorted = new ArrayList<>();
-                StringUtil.copyPartialMatches(args[1], EcoArgs, shorted);
-                Collections.sort(shorted);
-                return shorted;
+                if (sender.hasPermission("purgatory.eco")) {
+                    ArrayList<String> EcoArgs = new ArrayList<>();
+
+                    if (sender.hasPermission("purgatory.eco.give")) {
+                        EcoArgs.add("give");
+                    }
+                    if (sender.hasPermission("purgatory.eco.take")) {
+                        EcoArgs.add("take");
+                    }
+                    if (sender.hasPermission("purgatory.eco.set")) {
+                        EcoArgs.add("set");
+                    }
+
+                    List<String> shorted = new ArrayList<>();
+                    StringUtil.copyPartialMatches(args[1], EcoArgs, shorted);
+                    Collections.sort(shorted);
+                    return shorted;
+                }
+            } else if (args[0].equalsIgnoreCase("balance")) {
+                if (sender.hasPermission("purgatory.balance.other")) {
+                    return Utils.playerNameList();
+                }
             }
         } else if (args.length == 3) {
             if (args[0].equalsIgnoreCase("eco")) {
-                if (args[1].equalsIgnoreCase("give") || args[1].equalsIgnoreCase("take") || args[1].equalsIgnoreCase("set")) {
-                    return Utils.playerNameList();
+
+                if (args[1].equalsIgnoreCase("give")) {
+                    if (sender.hasPermission("purgatory.eco.give")) {
+                        return Utils.playerNameList();
+                    }
+                } else if (args[1].equalsIgnoreCase("take")) {
+                    if (sender.hasPermission("purgatory.eco.take")) {
+                        return Utils.playerNameList();
+                    }
+                } else if (args[1].equalsIgnoreCase("set")) {
+                    if (sender.hasPermission("purgatory.eco.set")) {
+                        return Utils.playerNameList();
+                    }
                 }
             }
         }  else if (args.length == 4) {
             if (args[0].equalsIgnoreCase("eco")) {
-                if (args[1].equalsIgnoreCase("give") || args[1].equalsIgnoreCase("take") || args[1].equalsIgnoreCase("set")) {
-                    return Collections.singletonList("<amount>");
+                if (args[1].equalsIgnoreCase("give")) {
+                    if (sender.hasPermission("purgatory.eco.give")) {
+                        return Collections.singletonList("<amount>");
+                    }
+                } else if (args[1].equalsIgnoreCase("take")) {
+                    if (sender.hasPermission("purgatory.eco.take")) {
+                        return Collections.singletonList("<amount>");
+                    }
+                } else if (args[1].equalsIgnoreCase("set")) {
+                    if (sender.hasPermission("purgatory.eco.set")) {
+                        return Collections.singletonList("<amount>");
+                    }
                 }
             }
         }

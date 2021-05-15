@@ -8,6 +8,7 @@ import net.natroutter.natlibs.utilities.Utilities;
 import net.natroutter.purgatory.commands.Spawn;
 import net.natroutter.purgatory.commands.Spectator;
 import net.natroutter.purgatory.features.ChatFormater;
+import net.natroutter.purgatory.features.GeneralHandler;
 import net.natroutter.purgatory.features.Spectator.SpectatorEvents;
 import net.natroutter.purgatory.features.TrackerCompass.CompassEvents;
 import net.natroutter.purgatory.features.abilities.AbilityHandler;
@@ -26,6 +27,7 @@ import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 import net.natroutter.natlibs.handlers.FileManager.ConfType;
 
+@SuppressWarnings({"deprecation"})
 public class Purgatory extends JavaPlugin {
 
     private static JavaPlugin instance;
@@ -79,7 +81,8 @@ public class Purgatory extends JavaPlugin {
                 SpectatorEvents.class,
                 ChatFormater.class,
                 AbilityListeners.class,
-                CompassEvents.class
+                CompassEvents.class,
+                GeneralHandler.class
         );
 
         //register commands
@@ -89,14 +92,12 @@ public class Purgatory extends JavaPlugin {
                 Spawn.class
         );
 
-
-
         for (World w : Bukkit.getWorlds()) {
             w.setGameRuleValue("doInsomnia", "false");
             w.setGameRuleValue("universalAnger", "false");
             w.setGameRuleValue("spawnRadius", "0");
+            w.setGameRuleValue("doFireTick", "false");
         }
-
 
     }
 

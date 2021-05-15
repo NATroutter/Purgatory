@@ -1,9 +1,10 @@
 main: net.natroutter.purgatory.Purgatory
 name: Purgatory
-version: 1.0.0
+version: ${project.version}
 author: NATroutter
-description: Gamemode for banned players
+description: ${project.description}
 api-version: 1.16
+website: ${project.url}
 depend:
   - Citizens
 softdepend:
