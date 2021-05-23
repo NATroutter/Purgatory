@@ -103,6 +103,11 @@ public class Lang {
             public String Shown = "§c§lPlayers can see you";
         }
 
+        public String toSpawn = "§4§lTeleport to spawn";
+        public List<String> toSpawn_lore = new ArrayList<>() {{
+            add("§7Click here and you will be teleported to spawn");
+        }};
+
         public String Complete_Visibility = "§4§lComplete visibility";
         public List<String> Complete_Visibility_lore = new ArrayList<>() {{
             add("§7Here you can toggle do other players see you at all");
@@ -248,11 +253,6 @@ public class Lang {
             add("§7Tracks banned players in 200 blocks radius");
         }};
 
-        public String TrollerHelmet_name = "§4§lTroller Helmet";
-        public List<String> TrollerHelmet_lore = new ArrayList<>() {{
-            add("§7U are pumpkin ;)");
-        }};
-
         public String abilities_name = "§4§lAbilities";
         public List<String> abilities_lore = new ArrayList<>() {{
             add("§7here you can find all kind of abilities");
@@ -283,7 +283,6 @@ public class Lang {
     public shop shop = new shop();
     public static class shop {
         public String title = "§4§lPurgatory Shop";
-        public String npc_name = "§4§lPurgatory Shop";
 
         public String stone_name = "§c§lStone";
         public List<String> stone_lore = new ArrayList<>() {{

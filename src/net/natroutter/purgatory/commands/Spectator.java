@@ -1,6 +1,5 @@
 package net.natroutter.purgatory.commands;
 
-import net.natroutter.natlibs.objects.BasePlayer;
 import net.natroutter.natlibs.utilities.StringHandler;
 import net.natroutter.purgatory.Purgatory;
 import net.natroutter.purgatory.features.bancheck.BanChecker;
@@ -33,7 +32,7 @@ public class Spectator extends Command {
             sender.sendMessage(lang.prefix + lang.ingameOnly);
             return false;
         }
-        BasePlayer p = BasePlayer.from(sender);
+        Player p = (Player)sender;
 
         if (args.length == 0) {
             if (AdminHandler.isAdmin(p)) {

@@ -8,7 +8,7 @@ import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.trait.Trait;
 import net.citizensnpcs.trait.LookClose;
 import net.natroutter.natlibs.handlers.Database.YamlDatabase;
-import net.natroutter.natlibs.objects.BasePlayer;
+
 import net.natroutter.purgatory.Purgatory;
 import net.natroutter.purgatory.features.bancheck.BanChecker;
 import net.natroutter.purgatory.features.Spectator.SpectatorHandler;
@@ -20,6 +20,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -56,7 +57,7 @@ public class NpcHandler implements Listener {
 
     @EventHandler
     public void onInteract(NPCRightClickEvent e) {
-        BasePlayer p = BasePlayer.from(e.getClicker());
+        Player p = e.getClicker();
         if (AdminHandler.isAdmin(p)) {
             p.sendMessage(lang.prefix + lang.CantInAdminMode);
             return;
@@ -82,7 +83,7 @@ public class NpcHandler implements Listener {
         }
     }
 
-    private void openShop(BasePlayer p) {
+    private void openShop(Player p) {
         if (!SpectatorHandler.isSpectator(p)) {
             BanChecker.update(p);
             BanData data = BanChecker.check(p);

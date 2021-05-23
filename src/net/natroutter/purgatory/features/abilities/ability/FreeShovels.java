@@ -1,10 +1,11 @@
 package net.natroutter.purgatory.features.abilities.ability;
 
 import net.natroutter.natlibs.objects.BaseItem;
-import net.natroutter.natlibs.objects.BasePlayer;
+
 import net.natroutter.purgatory.features.abilities.Ability;
 import net.natroutter.purgatory.features.abilities.AbilityItem;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
@@ -20,7 +21,7 @@ public class FreeShovels extends Ability {
     }
 
     @Override
-    public void activeAbility(BasePlayer p, BasePlayer target) {
+    public void activeAbility(Player p, Player target) {
         PlayerInventory inv = target.getInventory();
         for (ItemStack item : inv.getStorageContents()) {
             if (item == null) {

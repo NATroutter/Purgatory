@@ -1,7 +1,6 @@
 package net.natroutter.purgatory.features.Spectator;
 
 import net.natroutter.natlibs.objects.BaseItem;
-import net.natroutter.natlibs.objects.BasePlayer;
 import net.natroutter.purgatory.Purgatory;
 import net.natroutter.purgatory.features.abilities.AbilityGUI;
 import net.natroutter.purgatory.features.abilities.settings.SettingsGUI;
@@ -35,7 +34,7 @@ public class SpectatorEvents implements Listener {
 
     @EventHandler
     public void onSpectatorJoin(PlayerJoinEvent e){
-        BasePlayer p = BasePlayer.from(e.getPlayer());
+        Player p = e.getPlayer();
         PlayerData data = PlayerDataHandler.queryForID(p.getUniqueId());
         if (data == null) {return;}
         if (data.getAdminMode()) {return;}
@@ -58,7 +57,7 @@ public class SpectatorEvents implements Listener {
     @EventHandler
     public void onSpectatorInvClick(InventoryClickEvent e) {
         if (e.getWhoClicked() instanceof Player) {
-            BasePlayer p = BasePlayer.from(e.getWhoClicked());
+            Player p = (Player)e.getWhoClicked();
             if (AdminHandler.isAdmin(p)) {return;}
             if (SpectatorHandler.isSpectator(p)) {
                 //if clicked slot is helmet slot
@@ -74,7 +73,7 @@ public class SpectatorEvents implements Listener {
     @EventHandler
     public void onSpectatorFoodChange(FoodLevelChangeEvent e) {
         if (e.getEntity() instanceof Player) {
-            BasePlayer p = BasePlayer.from(e.getEntity());
+            Player p = (Player)e.getEntity();
             if (AdminHandler.isAdmin(p)) {return;}
             if (SpectatorHandler.isSpectator(p)) {
                 e.setCancelled(true);
@@ -86,7 +85,7 @@ public class SpectatorEvents implements Listener {
     @EventHandler
     public void onSpectatorDamage(EntityDamageEvent e) {
         if (e.getEntity() instanceof Player) {
-            BasePlayer p = BasePlayer.from(e.getEntity());
+            Player p = (Player)e.getEntity();
             if (AdminHandler.isAdmin(p)) {return;}
             if (SpectatorHandler.isSpectator(p)) {
                 e.setCancelled(true);
@@ -98,7 +97,7 @@ public class SpectatorEvents implements Listener {
     @EventHandler
     public void onSpectatorDamageEntity(EntityDamageByEntityEvent e) {
         if (e.getDamager() instanceof Player) {
-            BasePlayer p = BasePlayer.from(e.getDamager());
+            Player p = (Player)e.getDamager();
             if (AdminHandler.isAdmin(p)) {return;}
             if (SpectatorHandler.isSpectator(p)) {
                 e.setCancelled(true);
@@ -109,7 +108,7 @@ public class SpectatorEvents implements Listener {
 
     @EventHandler
     public void onSpectatorBreakBlock(BlockBreakEvent e) {
-        BasePlayer p = BasePlayer.from(e.getPlayer());
+        Player p = e.getPlayer();
         if (AdminHandler.isAdmin(p)) {return;}
         if (SpectatorHandler.isSpectator(p)) {
             e.setCancelled(true);
@@ -119,7 +118,7 @@ public class SpectatorEvents implements Listener {
 
     @EventHandler
     public void onSpectatorPlaceBlock(BlockPlaceEvent e) {
-        BasePlayer p = BasePlayer.from(e.getPlayer());
+        Player p = e.getPlayer();
         if (AdminHandler.isAdmin(p)) {return;}
         if (SpectatorHandler.isSpectator(p)) {
             e.setCancelled(true);
@@ -131,7 +130,7 @@ public class SpectatorEvents implements Listener {
     @EventHandler
     public void onSpectatorPickup(EntityPickupItemEvent e) {
         if (e.getEntity() instanceof Player) {
-            BasePlayer p = BasePlayer.from(e.getEntity());
+            Player p = (Player)e.getEntity();
             if (AdminHandler.isAdmin(p)) {return;}
             if (SpectatorHandler.isSpectator(p)) {
                 e.setCancelled(true);
@@ -148,7 +147,7 @@ public class SpectatorEvents implements Listener {
 
     @EventHandler
     public void onSpectatorInteract(PlayerInteractEvent e) {
-        BasePlayer p = BasePlayer.from(e.getPlayer());
+        Player p = e.getPlayer();
         if (AdminHandler.isAdmin(p)) {return;}
         if (SpectatorHandler.isSpectator(p)) {
             e.setCancelled(true);
@@ -173,7 +172,7 @@ public class SpectatorEvents implements Listener {
 
     @EventHandler
     public void onSpectatorInteractEntity(PlayerInteractEntityEvent e) {
-        BasePlayer p = BasePlayer.from(e.getPlayer());
+        Player p = e.getPlayer();
         if (AdminHandler.isAdmin(p)) {return;}
         if (SpectatorHandler.isSpectator(p)) {
             e.setCancelled(true);

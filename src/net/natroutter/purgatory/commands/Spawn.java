@@ -1,7 +1,6 @@
 package net.natroutter.purgatory.commands;
 
 import net.natroutter.natlibs.handlers.Database.YamlDatabase;
-import net.natroutter.natlibs.objects.BasePlayer;
 import net.natroutter.purgatory.Purgatory;
 import net.natroutter.purgatory.utilities.Lang;
 import org.bukkit.Location;
@@ -25,7 +24,7 @@ public class Spawn extends Command {
             sender.sendMessage(lang.prefix + lang.ingameOnly);
             return false;
         }
-        BasePlayer p = BasePlayer.from(sender);
+        Player p = (Player)sender;
 
         if (args.length == 0) {
             if (p.hasPermission("purgatory.spawn")) {

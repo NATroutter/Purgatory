@@ -1,12 +1,12 @@
 package net.natroutter.purgatory.features.abilities.ability;
 
-import net.natroutter.natlibs.objects.BasePlayer;
 import net.natroutter.natlibs.utilities.Utilities;
 import net.natroutter.purgatory.Purgatory;
 import net.natroutter.purgatory.features.abilities.Ability;
 import net.natroutter.purgatory.features.abilities.AbilityItem;
 import org.bukkit.Material;
 import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
@@ -21,7 +21,7 @@ public class Dropper extends Ability {
     Utilities util = Purgatory.getUtilities();
 
     @Override
-    public void activeAbility(BasePlayer p, BasePlayer target) {
+    public void activeAbility(Player p, Player target) {
         PlayerInventory inv = target.getInventory();
         ArrayList<Integer> slots = new ArrayList<>();
 

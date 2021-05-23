@@ -1,7 +1,7 @@
 package net.natroutter.purgatory.utilities;
 
 import net.natroutter.natlibs.objects.BaseItem;
-import net.natroutter.natlibs.objects.BasePlayer;
+
 import net.natroutter.natlibs.utilities.SkullCreator;
 import net.natroutter.natlibs.utilities.StringHandler;
 import net.natroutter.purgatory.handlers.EcoHandler;
@@ -9,6 +9,7 @@ import net.natroutter.purgatory.Purgatory;
 import net.natroutter.purgatory.features.bancheck.BanChecker;
 import net.natroutter.purgatory.features.bancheck.BanData;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 
 import java.util.ArrayList;
@@ -18,6 +19,14 @@ public class Items {
 
     private final static Lang lang = Purgatory.getLang();
     private final static Config config = Purgatory.getCfg();
+
+    public static BaseItem ToSpawn() {
+        BaseItem item = new BaseItem(Material.NETHER_STAR);
+        item.setDisplayName(lang.settings.toSpawn);
+        item.setLore(lang.settings.toSpawn_lore);
+        item.addItemFlags(ItemFlag.values());
+        return item;
+    }
 
     public static BaseItem RemoveHelmet() {
         BaseItem item = new BaseItem(Material.BARRIER);
@@ -103,7 +112,7 @@ public class Items {
         return item;
     }
 
-    public static BaseItem playerInfo(BasePlayer p) {
+    public static BaseItem playerInfo(Player p) {
         BaseItem item = new SkullCreator().Create(p);
 
         StringHandler name = new StringHandler(lang.items.playerinfo_name);
@@ -123,7 +132,7 @@ public class Items {
         return item;
     }
 
-    public static BaseItem banInfo(BasePlayer p) {
+    public static BaseItem banInfo(Player p) {
         BaseItem item = new BaseItem(Material.WRITABLE_BOOK);
 
         item.setDisplayName(lang.items.baninfo_name);

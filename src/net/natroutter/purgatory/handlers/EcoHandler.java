@@ -1,6 +1,6 @@
 package net.natroutter.purgatory.handlers;
 
-import net.natroutter.natlibs.objects.BasePlayer;
+
 import net.natroutter.purgatory.Purgatory;
 import net.natroutter.purgatory.handlers.database.Database;
 import net.natroutter.purgatory.handlers.database.PlayerDataHandler;

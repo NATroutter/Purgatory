@@ -1,9 +1,10 @@
 package net.natroutter.purgatory.features.abilities.ability;
 
-import net.natroutter.natlibs.objects.BasePlayer;
+
 import net.natroutter.purgatory.features.abilities.Ability;
 import net.natroutter.purgatory.features.abilities.AbilityItem;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 public class Flip extends Ability {
 
@@ -13,7 +14,7 @@ public class Flip extends Ability {
     }
 
     @Override
-    public void activeAbility(BasePlayer p, BasePlayer target) {
+    public void activeAbility(Player p, Player target) {
 
         Location loc = target.getLocation();
         loc.setYaw(loc.getYaw() + 180);

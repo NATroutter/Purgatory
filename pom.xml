@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>net.natroutter</groupId>
+    <groupId>net.natroutter.purgatory</groupId>
     <artifactId>Purgatory</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
@@ -43,6 +43,12 @@
                         </goals>
                         <configuration>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <relocations>
+                                <relocation>
+                                    <pattern>net.natroutter.natlibs</pattern>
+                                    <shadedPattern>${project.groupId}.natlibs</shadedPattern>
+                                </relocation>
+                            </relocations>
                         </configuration>
                     </execution>
                 </executions>
@@ -90,7 +96,7 @@
         <dependency>
             <groupId>net.natroutter</groupId>
             <artifactId>NATLibs</artifactId>
-            <version>1.1.31</version>
+            <version>1.1.47</version>
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>

@@ -1,6 +1,6 @@
 package net.natroutter.purgatory.features.shop;
 
-import net.natroutter.natlibs.objects.BasePlayer;
+
 import net.natroutter.natlibs.utilities.StringHandler;
 import net.natroutter.purgatory.Purgatory;
 import net.natroutter.purgatory.features.bancheck.BanChecker;
@@ -12,6 +12,7 @@ import net.natroutter.purgatory.utilities.Lang;
 import net.natroutter.purgatory.utilities.Utils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.inventory.ItemStack;
 
@@ -21,7 +22,7 @@ public class ShopHandler {
     private static final Lang lang = Purgatory.getLang();
     private static final LitebansHandler lbh = Purgatory.getLitebans();
 
-    public static void sell(BasePlayer p, Material mat, InventoryAction act) {
+    public static void sell(Player p, Material mat, InventoryAction act) {
         if (act.equals(InventoryAction.PICKUP_HALF)) {
             boolean hasItem = false;
             for (ItemStack item : p.getInventory().getContents()) {
@@ -66,7 +67,7 @@ public class ShopHandler {
         }
     }
 
-    public static void buyShortenBan(BasePlayer p, InventoryAction act) {
+    public static void buyShortenBan(Player p, InventoryAction act) {
         if (act.equals(InventoryAction.PICKUP_ALL)) {
             if (!BanChecker.isBanned(p)) {
                 p.sendMessage(lang.prefix + lang.NotBanned);

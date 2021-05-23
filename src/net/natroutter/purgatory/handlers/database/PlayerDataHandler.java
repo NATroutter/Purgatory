@@ -1,7 +1,7 @@
 package net.natroutter.purgatory.handlers.database;
 
 import com.j256.ormlite.dao.Dao;
-import net.natroutter.natlibs.objects.BasePlayer;
+
 import net.natroutter.purgatory.Purgatory;
 import net.natroutter.purgatory.handlers.database.Database;
 import net.natroutter.purgatory.handlers.database.tables.PlayerData;

@@ -1,13 +1,13 @@
 package net.natroutter.purgatory.features;
 
 import net.milkbowl.vault.chat.Chat;
-import net.natroutter.natlibs.objects.BasePlayer;
 import net.natroutter.natlibs.utilities.StringHandler;
 import net.natroutter.purgatory.Purgatory;
 import net.natroutter.purgatory.features.bancheck.BanChecker;
 import net.natroutter.purgatory.handlers.Hooks;
 import net.natroutter.purgatory.utilities.Config;
 import net.natroutter.purgatory.utilities.Lang;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -20,7 +20,7 @@ public class ChatFormater implements Listener {
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent e) {
-        BasePlayer p = BasePlayer.from(e.getPlayer());
+        Player p = e.getPlayer();
 
         if (BanChecker.isBanned(p)) {
             p.sendMessage(lang.prefix + lang.NoPermToChat);

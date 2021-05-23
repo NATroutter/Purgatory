@@ -1,6 +1,6 @@
 package net.natroutter.purgatory.features.abilities.ability;
 
-import net.natroutter.natlibs.objects.BasePlayer;
+
 import net.natroutter.natlibs.utilities.Utilities;
 import net.natroutter.purgatory.Purgatory;
 import net.natroutter.purgatory.features.abilities.Ability;
@@ -9,6 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class OreSwap extends Ability {
 
 
     @Override
-    public void activeAbility(BasePlayer p, BasePlayer target) {
+    public void activeAbility(Player p, Player target) {
         World.Environment env = target.getWorld().getEnvironment();
         for (Block b : util.getBlocks(target.getLocation(), 25)) {
             if (b.getType().name().endsWith("_ORE")) {

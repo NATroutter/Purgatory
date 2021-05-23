@@ -1,8 +1,9 @@
 package net.natroutter.purgatory.features.abilities.ability;
 
-import net.natroutter.natlibs.objects.BasePlayer;
+
 import net.natroutter.purgatory.features.abilities.Ability;
 import net.natroutter.purgatory.features.abilities.AbilityItem;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
@@ -17,11 +18,11 @@ public class Scrambler extends Ability {
     }
 
     @Override
-    public void activeAbility(BasePlayer p, BasePlayer target) {
+    public void activeAbility(Player p, Player target) {
         Scramble(target);
     }
 
-    public static void Scramble(BasePlayer target) {
+    public static void Scramble(Player target) {
         PlayerInventory inv = target.getInventory();
         List<ItemStack> items = new ArrayList<>();
         for (ItemStack stack : inv.getStorageContents()) {

@@ -4,6 +4,7 @@ import net.natroutter.natlibs.NATLibs;
 import net.natroutter.natlibs.handlers.Database.YamlDatabase;
 import net.natroutter.natlibs.handlers.EventManager;
 import net.natroutter.natlibs.handlers.FileManager;
+import net.natroutter.natlibs.objects.ConfType;
 import net.natroutter.natlibs.utilities.Utilities;
 import net.natroutter.purgatory.commands.Spawn;
 import net.natroutter.purgatory.commands.Spectator;
@@ -13,7 +14,6 @@ import net.natroutter.purgatory.features.Spectator.SpectatorEvents;
 import net.natroutter.purgatory.features.TrackerCompass.CompassEvents;
 import net.natroutter.purgatory.features.abilities.AbilityHandler;
 import net.natroutter.purgatory.features.abilities.AbilityListeners;
-import net.natroutter.purgatory.features.abilities.ability.Thief;
 import net.natroutter.purgatory.handlers.Hooks;
 import net.natroutter.purgatory.handlers.LitebansHandler;
 import net.natroutter.purgatory.commands.PurgatoryCMD;
@@ -25,7 +25,6 @@ import net.natroutter.purgatory.utilities.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
-import net.natroutter.natlibs.handlers.FileManager.ConfType;
 
 @SuppressWarnings({"deprecation"})
 public class Purgatory extends JavaPlugin {

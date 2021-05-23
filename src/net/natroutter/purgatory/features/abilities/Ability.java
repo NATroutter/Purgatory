@@ -1,6 +1,6 @@
 package net.natroutter.purgatory.features.abilities;
 
-import net.natroutter.natlibs.objects.BasePlayer;
+import org.bukkit.entity.Player;
 
 public abstract class Ability {
 
@@ -18,7 +18,7 @@ public abstract class Ability {
         this.permission = permission;
     }
 
-    public abstract void activeAbility(BasePlayer p, BasePlayer target);
+    public abstract void activeAbility(Player p, Player target);
 
 
 }

@@ -1,7 +1,6 @@
 package net.natroutter.purgatory.features.Spectator;
 
 import net.natroutter.natlibs.objects.BaseItem;
-import net.natroutter.natlibs.objects.BasePlayer;
 import net.natroutter.purgatory.Purgatory;
 import net.natroutter.purgatory.features.abilities.settings.SettingsHandler;
 import net.natroutter.purgatory.handlers.AdminHandler;
@@ -29,12 +28,12 @@ public class SpectatorHandler {
     private static HashMap<UUID, BaseItem> helmet = new HashMap<>();
 
 
-    public static BaseItem getHelmet(BasePlayer p) {
+    public static BaseItem getHelmet(Player p) {
         return helmet.getOrDefault(p.getUniqueId(), new BaseItem(Material.AIR));
     }
 
     public enum HelmetStatus {REMOVED,MODIFIED,FAILED,ALREADY,NOTWEARING}
-    public static HelmetStatus setHelmet(BasePlayer p, BaseItem head) {
+    public static HelmetStatus setHelmet(Player p, BaseItem head) {
         if (head == null) {
             if (p.getEquipment() == null || p.getEquipment().getHelmet() == null || p.getEquipment().getHelmet().getType().equals(Material.AIR)) {
                 return HelmetStatus.NOTWEARING;
@@ -61,25 +60,25 @@ public class SpectatorHandler {
         return HelmetStatus.MODIFIED;
     }
 
-    public static boolean isHidden(BasePlayer p) {
-        return hidden.contains(p.getPlayer());
+    public static boolean isHidden(Player p) {
+        return hidden.contains(p);
     }
 
-    public static boolean isSpectator(BasePlayer p) {
+    public static boolean isSpectator(Player p) {
         PlayerData data = PlayerDataHandler.queryForID(p.getUniqueId());
         if (data == null) {return false;}
         return data.IsSpectator();
     }
 
-    public static void clean(BasePlayer p) {
+    public static void clean(Player p) {
         p.setFoodLevel(20);
         p.setHealth(20);
         p.getInventory().clear();
         p.getActivePotionEffects().forEach(e->{p.removePotionEffect(e.getType());});
     }
 
-    public static void spectatorMode(BasePlayer p, boolean state) {spectatorMode(p, state, true);}
-    public static void spectatorMode(BasePlayer p, boolean state, boolean DoAdminCheck) {
+    public static void spectatorMode(Player p, boolean state) {spectatorMode(p, state, true);}
+    public static void spectatorMode(Player p, boolean state, boolean DoAdminCheck) {
         if (DoAdminCheck) {
             if (AdminHandler.isAdmin(p)) {
                 p.sendMessage("failed! - " + state);
@@ -102,8 +101,8 @@ public class SpectatorHandler {
             p.setAllowFlight(true);
             p.setFlying(true);
             p.getInventory().setItem(0, Items.abilityBox());
-            p.getInventory().setItem(1, Items.TrackerCompass());
             p.getInventory().setItem(1, Items.Settings());
+            p.getInventory().setItem(2, Items.TrackerCompass());
         } else {
             p.setGameMode(GameMode.SURVIVAL);
             showToAll(p.getPlayer());
@@ -117,7 +116,7 @@ public class SpectatorHandler {
     public static void updateHiddenPlayers() {
         for (Player ps : Bukkit.getOnlinePlayers()) {
             for (Player target : hidden) {
-                if (AdminHandler.isAdmin(BasePlayer.from(ps))) { continue; }
+                if (AdminHandler.isAdmin(ps)) { continue; }
                 ps.hidePlayer(Purgatory.getInstance(), target);
             }
         }
@@ -131,7 +130,7 @@ public class SpectatorHandler {
     }
 
     public static void hideToAll(Player target) {
-        if (AdminHandler.isAdmin(BasePlayer.from(target))) { return; }
+        if (AdminHandler.isAdmin(target)) { return; }
         hidden.add(target);
         for (Player allPlayers : Bukkit.getOnlinePlayers()) {
             allPlayers.hidePlayer(Purgatory.getInstance(), target);

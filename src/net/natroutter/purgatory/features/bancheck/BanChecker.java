@@ -1,10 +1,11 @@
 package net.natroutter.purgatory.features.bancheck;
 
-import net.natroutter.natlibs.objects.BasePlayer;
+
 import net.natroutter.purgatory.handlers.LitebansHandler;
 import net.natroutter.purgatory.Purgatory;
 import net.natroutter.purgatory.handlers.database.Database;
 import net.natroutter.purgatory.utilities.Lang;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -21,15 +22,15 @@ public class BanChecker implements Listener {
     private final static Lang lang = Purgatory.getLang();
     private static HashMap<UUID, BanData> Bans = new HashMap<UUID, BanData>();
 
-    public static BanData check(BasePlayer p) {
+    public static BanData check(Player p) {
         return Bans.getOrDefault(p.getUniqueId(), null);
     }
 
-    public static boolean isBanned(BasePlayer p) {
+    public static boolean isBanned(Player p) {
         return Bans.containsKey(p.getUniqueId());
     }
 
-    public static void update(BasePlayer p) {
+    public static void update(Player p) {
         BanData data = litebans.getBan(p.getUniqueId());
         if (data != null) {
             Bans.put(p.getUniqueId(), data);
@@ -56,7 +57,6 @@ public class BanChecker implements Listener {
 
     @EventHandler
     public void onLeave(PlayerQuitEvent e) {
-        BasePlayer p = BasePlayer.from(e.getPlayer());
-        Bans.remove(p.getUniqueId());
+        Bans.remove(e.getPlayer().getUniqueId());
     }
 }

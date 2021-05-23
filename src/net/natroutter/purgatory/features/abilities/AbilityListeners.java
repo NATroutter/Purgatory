@@ -8,7 +8,6 @@ import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
 import net.natroutter.natlibs.objects.BaseItem;
-import net.natroutter.natlibs.objects.BasePlayer;
 import net.natroutter.natlibs.utilities.StringHandler;
 import net.natroutter.purgatory.Purgatory;
 import net.natroutter.purgatory.features.Spectator.SpectatorHandler;
@@ -51,7 +50,7 @@ public class AbilityListeners implements Listener {
     @EventHandler
     public void onPickup(EntityPickupItemEvent e) {
         if (e.getEntity() instanceof Player) {
-            BasePlayer p = BasePlayer.from(e.getEntity());
+            Player p = (Player)e.getEntity();
             if (Thief.thiefs.getOrDefault(p.getUniqueId(), false)) {
                 e.setCancelled(true);
                 e.getItem().remove();
@@ -61,7 +60,7 @@ public class AbilityListeners implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDrop(PlayerDropItemEvent e) {
-        BasePlayer p = BasePlayer.from(e.getPlayer());
+        Player p = e.getPlayer();
         if (AdminHandler.isAdmin(p)) {return;}
         if (SpectatorHandler.isSpectator(p)) {
             for (Ability ab : AbilityHandler.abilities) {
@@ -78,7 +77,7 @@ public class AbilityListeners implements Listener {
 
     @EventHandler
     public void onInteractEntity(PlayerInteractAtEntityEvent e) {
-        BasePlayer p = BasePlayer.from(e.getPlayer());
+        Player p = e.getPlayer();
         if (AdminHandler.isAdmin(p)) {return;}
 
         if (SpectatorHandler.isSpectator(p)) {
@@ -93,7 +92,7 @@ public class AbilityListeners implements Listener {
                 }
                 return;
             }
-            BasePlayer target = BasePlayer.from(e.getRightClicked());
+            Player target = (Player) e.getRightClicked();
 
             ItemStack hand = p.getInventory().getItemInMainHand();
             if (hand == null || hand.getType().equals(Material.AIR)) {hand = p.getInventory().getItemInOffHand();}

@@ -3,12 +3,13 @@ package net.natroutter.purgatory.features.shop;
 import net.natroutter.natlibs.handlers.gui.GUIItem;
 import net.natroutter.natlibs.handlers.gui.GUIWindow;
 import net.natroutter.natlibs.objects.BaseItem;
-import net.natroutter.natlibs.objects.BasePlayer;
+
 import net.natroutter.purgatory.Purgatory;
 import net.natroutter.purgatory.utilities.Config;
 import net.natroutter.purgatory.utilities.Items;
 import net.natroutter.purgatory.utilities.Lang;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -34,18 +35,18 @@ public class ShopGUI {
     private static BaseItem gold_ingot = Items.shopItem(Material.GOLD_INGOT, lang.shop.gold_ingot_name, lang.shop.gold_ingot_lore, config.Shop.prices.gold_ingot);
     private static BaseItem iron_ingot = Items.shopItem(Material.IRON_INGOT, lang.shop.iron_ingot_name, lang.shop.iron_ingot_lore, config.Shop.prices.iron_ingot);
 
-    private static GUIWindow getGUI(BasePlayer p) {
+    private static GUIWindow getGUI(Player p) {
         if (!GUIS.containsKey(p.getUniqueId())) {
             GUIS.put(p.getUniqueId(), new GUIWindow(lang.shop.title, GUIWindow.Rows.row6, true));
         }
         return GUIS.get(p.getUniqueId());
     }
 
-    public static void show(BasePlayer p) {
+    public static void show(Player p) {
         guiBuilder(p).show(p, true);
     }
 
-    private static GUIWindow guiBuilder(BasePlayer p) {
+    private static GUIWindow guiBuilder(Player p) {
         GUIWindow gui = getGUI(p);
 
         gui.setItem(new GUIItem(stone, (e)-> {

@@ -1,7 +1,6 @@
 package net.natroutter.purgatory.commands;
 
 import net.natroutter.natlibs.handlers.Database.YamlDatabase;
-import net.natroutter.natlibs.objects.BasePlayer;
 import net.natroutter.natlibs.utilities.StringHandler;
 import net.natroutter.purgatory.handlers.AdminHandler;
 import net.natroutter.purgatory.handlers.EcoHandler;
@@ -38,7 +37,7 @@ public class PurgatoryCMD extends Command {
         super("Purgatory");
     }
 
-    public void helpMessage(BasePlayer p) {
+    public void helpMessage(Player p) {
 
     }
 
@@ -49,7 +48,7 @@ public class PurgatoryCMD extends Command {
             sender.sendMessage(lang.prefix + lang.ingameOnly);
             return false;
         }
-        BasePlayer p = BasePlayer.from(sender);
+        Player p = (Player)sender;
 
         if (args.length == 0) {
             helpMessage(p);

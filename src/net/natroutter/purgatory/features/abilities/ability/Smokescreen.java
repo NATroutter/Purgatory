@@ -1,6 +1,5 @@
 package net.natroutter.purgatory.features.abilities.ability;
 
-import net.natroutter.natlibs.objects.BasePlayer;
 import net.natroutter.natlibs.objects.ParticleSettings;
 import net.natroutter.natlibs.utilities.Utilities;
 import net.natroutter.purgatory.Purgatory;
@@ -10,6 +9,7 @@ import net.natroutter.purgatory.utilities.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -31,7 +31,7 @@ public class Smokescreen extends Ability {
 
 
     @Override
-    public void activeAbility(BasePlayer p, BasePlayer target) {
+    public void activeAbility(Player p, Player target) {
         if (tasks.containsKey(p.getUniqueId())) { return; }
         tasks.put(p.getUniqueId(), Bukkit.getScheduler().scheduleSyncRepeatingTask(Purgatory.getInstance(), ()-> {
 

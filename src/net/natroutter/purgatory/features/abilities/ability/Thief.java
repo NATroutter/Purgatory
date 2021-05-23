@@ -1,6 +1,6 @@
 package net.natroutter.purgatory.features.abilities.ability;
 
-import net.natroutter.natlibs.objects.BasePlayer;
+
 import net.natroutter.purgatory.Purgatory;
 import net.natroutter.purgatory.features.abilities.Ability;
 import net.natroutter.purgatory.features.abilities.AbilityItem;
@@ -21,7 +21,7 @@ public class Thief extends Ability {
     public static HashMap<UUID, Boolean> thiefs = new HashMap<>();
 
     @Override
-    public void activeAbility(BasePlayer p, BasePlayer target) {
+    public void activeAbility(Player p, Player target) {
         if (thiefs.containsKey(target.getUniqueId())) {
             return;
         }

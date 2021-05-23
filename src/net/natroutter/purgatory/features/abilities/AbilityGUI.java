@@ -3,22 +3,22 @@ package net.natroutter.purgatory.features.abilities;
 import net.natroutter.natlibs.handlers.gui.GUIItem;
 import net.natroutter.natlibs.handlers.gui.GUIWindow;
 import net.natroutter.natlibs.objects.BaseItem;
-import net.natroutter.natlibs.objects.BasePlayer;
 import net.natroutter.natlibs.utilities.StringHandler;
 import net.natroutter.purgatory.Purgatory;
 import net.natroutter.purgatory.utilities.Lang;
 import net.natroutter.purgatory.utilities.Utils;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class AbilityGUI {
 
     private static final Lang lang = Purgatory.getLang();
 
-    public static void show(BasePlayer p) {
+    public static void show(Player p) {
         guiBuilder(p).show(p);
     }
 
-    private static GUIWindow guiBuilder(BasePlayer p) {
+    private static GUIWindow guiBuilder(Player p) {
         GUIWindow gui = new GUIWindow(lang.abilities.gui_title, GUIWindow.Rows.row6, true);
         Integer pos = 0;
 

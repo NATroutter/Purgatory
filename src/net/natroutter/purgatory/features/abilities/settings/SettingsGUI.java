@@ -3,7 +3,7 @@ package net.natroutter.purgatory.features.abilities.settings;
 import net.natroutter.natlibs.handlers.gui.GUIItem;
 import net.natroutter.natlibs.handlers.gui.GUIWindow;
 import net.natroutter.natlibs.objects.BaseItem;
-import net.natroutter.natlibs.objects.BasePlayer;
+
 import net.natroutter.natlibs.utilities.StringHandler;
 import net.natroutter.purgatory.Purgatory;
 import net.natroutter.purgatory.features.Spectator.SpectatorHandler;
@@ -12,6 +12,7 @@ import net.natroutter.purgatory.utilities.Config;
 import net.natroutter.purgatory.utilities.Items;
 import net.natroutter.purgatory.utilities.Lang;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 
 
 import java.util.Arrays;
@@ -32,7 +33,7 @@ public class SettingsGUI {
 
     private static HashMap<UUID, GUIWindow> GUIS = new HashMap<UUID, GUIWindow>();
 
-    private static GUIWindow getGUI(BasePlayer p) {
+    private static GUIWindow getGUI(Player p) {
         if (!GUIS.containsKey(p.getUniqueId())) {
             GUIS.put(p.getUniqueId(), new GUIWindow(lang.settings.title, GUIWindow.Rows.row5, true));
         }
@@ -46,11 +47,11 @@ public class SettingsGUI {
         return newitem;
     }
 
-    public static void show(BasePlayer p) {
+    public static void show(Player p) {
         guiBuilder(p).show(p, true);
     }
 
-    public static GUIWindow guiBuilder(BasePlayer p) {
+    public static GUIWindow guiBuilder(Player p) {
         GUIWindow gui = getGUI(p);
 
         gui.setItem(new GUIItem(Items.Visibility(SettingsHandler.isInvisibility(p)), (e)-> {
