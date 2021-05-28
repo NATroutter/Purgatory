@@ -1,7 +1,15 @@
 package net.natroutter.purgatory.utilities;
 
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.protection.ApplicableRegionSet;
+import com.sk89q.worldguard.protection.managers.RegionManager;
+import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
 import net.natroutter.purgatory.Purgatory;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -38,6 +46,24 @@ public class Utils {
             return Integer.parseInt(val);
         } catch (Exception ignored) {}
         return null;
+    }
+
+    public static boolean inRegion(Location target, String region) {
+        if (target.getWorld() != null) {
+            WorldGuard wg = WorldGuard.getInstance();
+            RegionContainer cont = wg.getPlatform().getRegionContainer();
+            RegionManager rg = cont.get(BukkitAdapter.adapt(target.getWorld()));
+            if (rg != null) {
+                BlockVector3 pos = BlockVector3.at(target.getX(), target.getY(), target.getZ());
+                ApplicableRegionSet set = rg.getApplicableRegions(pos);
+                for (ProtectedRegion r : set.getRegions()) {
+                    if (r.getId().equals(region)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     public static OfflinePlayer getOfflinePlayer(String name) {

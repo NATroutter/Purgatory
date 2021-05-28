@@ -74,6 +74,10 @@ public class SettingsGUI {
         }), GUIWindow.Rows.row4, 1);
 
         gui.setItem(new GUIItem(DisplayItem(head1, config.settings.head1_needToUnlock), (e)-> {
+            if (!p.hasPermission(config.settings.head1_permission)) {
+                p.sendMessage(lang.prefix + lang.noPerm);
+                return;
+            }
             HelmetStatus status = SpectatorHandler.setHelmet(p, head1);
             if (status.equals(HelmetStatus.MODIFIED)) {
                 StringHandler message = new StringHandler(lang.WearingHead).setPrefix(lang.prefix);
@@ -85,6 +89,10 @@ public class SettingsGUI {
         }), GUIWindow.Rows.row4, 3);
 
         gui.setItem(new GUIItem(DisplayItem(head2, config.settings.head2_needToUnlock), (e)-> {
+            if (!p.hasPermission(config.settings.head2_permission)) {
+                p.sendMessage(lang.prefix + lang.noPerm);
+                return;
+            }
             HelmetStatus status = SpectatorHandler.setHelmet(p, head2);
             if (status.equals(HelmetStatus.MODIFIED)) {
                 StringHandler message = new StringHandler(lang.WearingHead).setPrefix(lang.prefix);
@@ -96,6 +104,10 @@ public class SettingsGUI {
         }), GUIWindow.Rows.row4, 4);
 
         gui.setItem(new GUIItem(DisplayItem(head3, config.settings.head3_needToUnlock), (e)-> {
+            if (!p.hasPermission(config.settings.head3_permission)) {
+                p.sendMessage(lang.prefix + lang.noPerm);
+                return;
+            }
             HelmetStatus status = SpectatorHandler.setHelmet(p, head3);
             if (status.equals(HelmetStatus.MODIFIED)) {
                 StringHandler message = new StringHandler(lang.WearingHead).setPrefix(lang.prefix);
@@ -107,6 +119,10 @@ public class SettingsGUI {
         }), GUIWindow.Rows.row4, 5);
 
         gui.setItem(new GUIItem(DisplayItem(head4, config.settings.head4_needToUnlock), (e)-> {
+            if (!p.hasPermission(config.settings.head4_permission)) {
+                p.sendMessage(lang.prefix + lang.noPerm);
+                return;
+            }
             HelmetStatus status = SpectatorHandler.setHelmet(p, head4);
             if (status.equals(HelmetStatus.MODIFIED)) {
                 StringHandler message = new StringHandler(lang.WearingHead).setPrefix(lang.prefix);
@@ -118,6 +134,10 @@ public class SettingsGUI {
         }), GUIWindow.Rows.row4, 6);
 
         gui.setItem(new GUIItem(DisplayItem(head5, config.settings.head5_needToUnlock), (e)-> {
+            if (!p.hasPermission(config.settings.head5_permission)) {
+                p.sendMessage(lang.prefix + lang.noPerm);
+                return;
+            }
             HelmetStatus status = SpectatorHandler.setHelmet(p, head5);
             if (status.equals(HelmetStatus.MODIFIED)) {
                 StringHandler message = new StringHandler(lang.WearingHead).setPrefix(lang.prefix);

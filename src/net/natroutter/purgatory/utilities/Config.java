@@ -1,6 +1,7 @@
 package net.natroutter.purgatory.utilities;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 public class Config {
 
@@ -10,9 +11,15 @@ public class Config {
     public Integer OneDayPrice = 35000;
     public Integer MaxBalance = 100000000;
     public Integer SafeTimeSeconds = 300;
+    public Integer CompassRadius = 500;
+    public Integer SpectatorSwitchCooldown = 43200;
     public String SpawnRegionName = "spawn";
     public String spectatorCommand = "spectator";
     public Integer ShopNpcID = 0;
+
+    public ArrayList<String> BannedAllowedCommands = new ArrayList<>(){{
+        add("/command_here");
+    }};
 
     public settings settings = new settings();
     public static class settings {
@@ -75,6 +82,10 @@ public class Config {
         public String lagstick_permission = "purgatory.abilities.lagstick";
         public String lagstick_needToUnlock = "Premium Vip";
         public Integer lagstick_cooldown = 60;
+
+        public String zombieinvasion_permission = "purgatory.abilities.zombieinvasion";
+        public String zombieinvasion_needToUnlock = "Premium Vip";
+        public Integer zombieinvasion_cooldown = 120;
 
         public String scrambler_permission = "purgatory.abilities.scrambler";
         public String scrambler_needToUnlock = "Premium Vip";

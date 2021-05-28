@@ -73,7 +73,7 @@ public class Items {
     }
 
     public static BaseItem Settings() {
-        BaseItem item = new BaseItem(Material.KNOWLEDGE_BOOK);
+        BaseItem item = new BaseItem(Material.BOOK);
         item.setDisplayName(lang.settings.item);
         item.setLore(lang.settings.item_lore);
         item.addItemFlags(ItemFlag.values());

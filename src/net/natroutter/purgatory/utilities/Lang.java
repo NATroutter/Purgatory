@@ -207,6 +207,11 @@ public class Lang {
             add("§7Target warps backwards every seconds for 3 seconds");
         }};
 
+        public String zombieinvasion_name = "§4§lZombie Invasion";
+        public List<String> zombieinvasion_lore = new ArrayList<>() {{
+            add("§7Spawns 5 zombies to target");
+        }};
+
         public String scrambler_name = "§4§lScrambler";
         public List<String> scrambler_lore = new ArrayList<>() {{
             add("§7Scramble target's inventory");
@@ -250,7 +255,7 @@ public class Lang {
 
         public String TrackerCompass_name = "§4§lTracker";
         public List<String> TrackerCompass_lore = new ArrayList<>() {{
-            add("§7Tracks banned players in 200 blocks radius");
+            add("§7Tracks banned players in 500 blocks radius");
         }};
 
         public String abilities_name = "§4§lAbilities";

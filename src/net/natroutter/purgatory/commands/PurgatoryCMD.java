@@ -2,17 +2,15 @@ package net.natroutter.purgatory.commands;
 
 import net.natroutter.natlibs.handlers.Database.YamlDatabase;
 import net.natroutter.natlibs.utilities.StringHandler;
+import net.natroutter.purgatory.features.Spectator.SpectatorHandler;
 import net.natroutter.purgatory.handlers.AdminHandler;
 import net.natroutter.purgatory.handlers.EcoHandler;
 import net.natroutter.purgatory.handlers.LitebansHandler;
 import net.natroutter.purgatory.Purgatory;
-import net.natroutter.purgatory.handlers.NpcHandler;
-import net.natroutter.purgatory.handlers.database.PlayerDataHandler;
-import net.natroutter.purgatory.handlers.database.tables.PlayerData;
 import net.natroutter.purgatory.utilities.Config;
 import net.natroutter.purgatory.utilities.Lang;
 import net.natroutter.purgatory.utilities.Utils;
-import org.antlr.v4.runtime.misc.NotNull;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -21,7 +19,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -67,7 +64,14 @@ public class PurgatoryCMD extends Command {
                 }
             } else if (args[0].equalsIgnoreCase("admin")) {
                 if (p.hasPermission("purgatory.admin")) {
-                    AdminHandler.ToggleAdminMode(p);
+                    SpectatorHandler.clean(p);
+                    if (AdminHandler.isAdmin(p)) {
+                        AdminHandler.AdminMode(p, false);
+                        SpectatorHandler.spectatorMode(p, true);
+                    } else {
+                        AdminHandler.AdminMode(p, true);
+                        SpectatorHandler.spectatorMode(p, false);
+                    }
 
                 } else {
                     p.sendMessage(lang.prefix + lang.noPerm);
@@ -111,6 +115,29 @@ public class PurgatoryCMD extends Command {
                 } else {
                     p.sendMessage(lang.prefix + lang.noPerm);
                 }
+
+            } else  if (args[0].equalsIgnoreCase("info")) {
+
+                if (p.hasPermission("purgatory.info")) {
+                    Player target = Bukkit.getPlayer(args[1]);
+                    if (target == null || !target.isOnline()) {
+                        p.sendMessage(lang.prefix + lang.InvalidPlayer);
+                        return false;
+                    }
+                    p.sendMessage(" ");
+                    p.sendMessage("§c§l----------[ §4§lPurgatory §c§l]----------");
+                    p.sendMessage(" ");
+                    p.sendMessage("§7Target: §c" + target.getName());
+                    p.sendMessage("§7Adminmode: §c" + AdminHandler.isAdmin(target));
+                    p.sendMessage("§7Spectator: §c" + SpectatorHandler.isSpectator(target));
+                    p.sendMessage(" ");
+                    p.sendMessage("§c§l----------[ §4§lPurgatory §c§l]----------");
+                    p.sendMessage(" ");
+
+                } else {
+                    p.sendMessage(lang.prefix + lang.noPerm);
+                }
+
             } else {
                 p.sendMessage(lang.prefix + lang.InvalidArgs);
             }
@@ -241,6 +268,9 @@ public class PurgatoryCMD extends Command {
             if (sender.hasPermission("purgatory.balance")) {
                 firstArgs.add("balance");
             }
+            if (sender.hasPermission("purgatory.info")) {
+                firstArgs.add("info");
+            }
 
             List<String> shorted = new ArrayList<>();
             StringUtil.copyPartialMatches(args[0], firstArgs, shorted);
@@ -269,6 +299,10 @@ public class PurgatoryCMD extends Command {
                 }
             } else if (args[0].equalsIgnoreCase("balance")) {
                 if (sender.hasPermission("purgatory.balance.other")) {
+                    return Utils.playerNameList();
+                }
+            } else if (args[0].equalsIgnoreCase("info")) {
+                if (sender.hasPermission("purgatory.info")) {
                     return Utils.playerNameList();
                 }
             }

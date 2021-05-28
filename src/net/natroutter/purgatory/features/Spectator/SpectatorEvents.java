@@ -40,12 +40,31 @@ public class SpectatorEvents implements Listener {
         if (data.getAdminMode()) {return;}
 
         if (!BanChecker.isBanned(p)) {
-            SpectatorHandler.spectatorMode(p, data.IsSpectator());
+            if (data.IsSpectator()) {
+                SpectatorHandler.spectatorMode(p, true);
+                AdminHandler.AdminMode(p, false, true);
+            } else {
+                if (AdminHandler.isAdmin(p)) {
+                    AdminHandler.AdminMode(p, true, true);
+                    SpectatorHandler.spectatorMode(p, false);
+                }
+            }
+            p.setDisplayName("§7" + p.getName());
         } else {
+            if (data.IsSpectator()) {
+                SpectatorHandler.clean(p);
+            } else {
+                SpectatorHandler.safeClean(p);
+            }
             SpectatorHandler.spectatorMode(p, false);
-            data.setSpectator(false);
             data.setSpectateCooldown(0);
+
+            if (AdminHandler.isAdmin(p)) {
+                data.setAdminMode(false);
+            }
+
             PlayerDataHandler.updateForID(data);
+            p.setDisplayName("§8" + p.getName());
         }
     }
 
@@ -89,7 +108,6 @@ public class SpectatorEvents implements Listener {
             if (AdminHandler.isAdmin(p)) {return;}
             if (SpectatorHandler.isSpectator(p)) {
                 e.setCancelled(true);
-                p.sendMessage(lang.prefix + lang.SpectatorNotAllowed);
             }
         }
     }

@@ -8,6 +8,7 @@ import net.natroutter.natlibs.objects.ConfType;
 import net.natroutter.natlibs.utilities.Utilities;
 import net.natroutter.purgatory.commands.Spawn;
 import net.natroutter.purgatory.commands.Spectator;
+import net.natroutter.purgatory.features.AllowedCommands;
 import net.natroutter.purgatory.features.ChatFormater;
 import net.natroutter.purgatory.features.GeneralHandler;
 import net.natroutter.purgatory.features.Spectator.SpectatorEvents;
@@ -81,7 +82,8 @@ public class Purgatory extends JavaPlugin {
                 ChatFormater.class,
                 AbilityListeners.class,
                 CompassEvents.class,
-                GeneralHandler.class
+                GeneralHandler.class,
+                AllowedCommands.class
         );
 
         //register commands

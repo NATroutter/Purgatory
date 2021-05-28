@@ -1,37 +1,24 @@
 package net.natroutter.purgatory.features.abilities;
 
-import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import com.sk89q.worldedit.math.BlockVector3;
-import com.sk89q.worldguard.WorldGuard;
-import com.sk89q.worldguard.protection.ApplicableRegionSet;
-import com.sk89q.worldguard.protection.managers.RegionManager;
-import com.sk89q.worldguard.protection.regions.ProtectedRegion;
-import com.sk89q.worldguard.protection.regions.RegionContainer;
-import net.natroutter.natlibs.objects.BaseItem;
 import net.natroutter.natlibs.utilities.StringHandler;
 import net.natroutter.purgatory.Purgatory;
 import net.natroutter.purgatory.features.Spectator.SpectatorHandler;
 import net.natroutter.purgatory.features.abilities.ability.Thief;
-import net.natroutter.purgatory.features.abilities.settings.SettingsGUI;
 import net.natroutter.purgatory.handlers.AdminHandler;
 import net.natroutter.purgatory.handlers.Hooks;
 import net.natroutter.purgatory.handlers.NpcHandler;
 import net.natroutter.purgatory.utilities.Config;
-import net.natroutter.purgatory.utilities.Items;
 import net.natroutter.purgatory.utilities.Lang;
 import net.natroutter.purgatory.utilities.Utils;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
@@ -103,21 +90,9 @@ public class AbilityListeners implements Listener {
                 if (ab.getAbilityItem().getItem().isSimilar(hand)) {
 
                     if (hooks.worldguard.isHooked()) {
-                        Location tl = target.getLocation();
-                        if (tl.getWorld() != null) {
-                            WorldGuard wg = WorldGuard.getInstance();
-                            RegionContainer cont = wg.getPlatform().getRegionContainer();
-                            RegionManager rg = cont.get(BukkitAdapter.adapt(tl.getWorld()));
-                            if (rg != null) {
-                                BlockVector3 pos = BlockVector3.at(tl.getX(), tl.getY(), tl.getZ());
-                                ApplicableRegionSet set = rg.getApplicableRegions(pos);
-                                for (ProtectedRegion r : set.getRegions()) {
-                                    if (r.getId().equals(config.SpawnRegionName)) {
-                                        p.sendMessage(lang.prefix + lang.AbilityProtectedArea);
-                                        return;
-                                    }
-                                }
-                            }
+                        if (Utils.inRegion(target.getLocation(), config.SpawnRegionName)) {
+                            p.sendMessage(lang.prefix + lang.AbilityProtectedArea);
+                            return;
                         }
                     }
 

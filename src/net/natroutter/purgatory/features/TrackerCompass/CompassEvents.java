@@ -3,10 +3,13 @@ package net.natroutter.purgatory.features.TrackerCompass;
 import net.natroutter.natlibs.objects.BaseItem;
 import net.natroutter.natlibs.utilities.StringHandler;
 import net.natroutter.purgatory.Purgatory;
+import net.natroutter.purgatory.features.Spectator.SpectatorHandler;
 import net.natroutter.purgatory.handlers.AdminHandler;
+import net.natroutter.purgatory.utilities.Config;
 import net.natroutter.purgatory.utilities.Items;
 import net.natroutter.purgatory.utilities.Lang;
 import org.bukkit.Location;
+import org.bukkit.block.data.type.Stairs;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -22,6 +25,7 @@ import java.util.UUID;
 public class CompassEvents implements Listener {
 
     private static final Lang lang = Purgatory.getLang();
+    private static final Config config = Purgatory.getCfg();
 
     HashMap<UUID, Boolean> Trackers = new HashMap<>();
     HashMap<UUID, Long> cool1 = new HashMap<>();
@@ -31,9 +35,12 @@ public class CompassEvents implements Listener {
         Player p = e.getPlayer();
         if (AdminHandler.isAdmin(p)) {return;}
         if (Trackers.getOrDefault(p.getUniqueId(), false)) {
-            for (Entity ent : p.getNearbyEntities(500, 500, 500)) {
+            for (Entity ent : p.getNearbyEntities(config.CompassRadius, config.CompassRadius, config.CompassRadius)) {
                 if (!(ent instanceof Player)) { continue; }
                 Player target = (Player)ent;
+
+                if (AdminHandler.isAdmin(target)) {continue;}
+                if (SpectatorHandler.isSpectator(target)) {continue;}
 
                 Location l1 = target.getLocation();
                 Location l2 = p.getLocation();

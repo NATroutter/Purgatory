@@ -27,6 +27,7 @@ public class AbilityHandler {
     private static final AbilityItem speed_item = new AbilityItem("Speed", Material.SUGAR, ab.speed_name, ab.speed_lore, cab.speed_needToUnlock);
     private static final AbilityItem jumpboost_item = new AbilityItem("JumpBoost", Material.BEACON, ab.jumpboost_name, ab.jumpboost_lore, cab.jumpboost_needToUnlock);
     private static final AbilityItem lagstick_item = new AbilityItem("LagStick", Material.STICK, ab.lagstick_name, ab.lagstick_lore, cab.lagstick_needToUnlock);
+    private static final AbilityItem zombieinvasion_item = new AbilityItem("ZombieInvasion", Material.ZOMBIE_SPAWN_EGG, ab.zombieinvasion_name, ab.zombieinvasion_lore, cab.zombieinvasion_needToUnlock);
     private static final AbilityItem scrambler_item = new AbilityItem("Scrambler", Material.BLAZE_ROD, ab.scrambler_name, ab.scrambler_lore, cab.scrambler_needToUnlock);
     private static final AbilityItem dropper_item = new AbilityItem("Dropper", Material.DROPPER, ab.dropper_name, ab.dropper_lore, cab.dropper_needToUnlock);
     private static final AbilityItem freeshovels_item = new AbilityItem("Freeshovels", Material.WOODEN_SHOVEL, ab.freeshovels_name, ab.freesholves_lore, cab.freeshovels_needToUnlock);
@@ -46,6 +47,7 @@ public class AbilityHandler {
         abilities.add(new Speed(speed_item, cab.sleep_cooldown, cab.sleep_permission));
         abilities.add(new JumpBoost(jumpboost_item, cab.jumpboost_cooldown, cab.jumpboost_permission));
         abilities.add(new LagStick(lagstick_item, cab.lagstick_cooldown, cab.lagstick_permission));
+        abilities.add(new ZombieInvasion(zombieinvasion_item, cab.zombieinvasion_cooldown, cab.zombieinvasion_permission));
         abilities.add(new Scrambler(scrambler_item, cab.scrambler_cooldown, cab.scrambler_permission));
         abilities.add(new Dropper(dropper_item, cab.dropper_cooldown, cab.dropper_permission));
         abilities.add(new FreeShovels(freeshovels_item, cab.freeshovels_cooldown, cab.freeshovels_permission));

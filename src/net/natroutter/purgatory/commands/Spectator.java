@@ -20,8 +20,6 @@ public class Spectator extends Command {
     private static final Config config = Purgatory.getCfg();
 
 
-    static Integer cooldown = 10;
-
     public Spectator() {
         super(config.spectatorCommand);
     }
@@ -48,7 +46,7 @@ public class Spectator extends Command {
             PlayerData data = PlayerDataHandler.queryForID(p.getUniqueId());
             if (data==null){return false;}
 
-            long seconds = ((data.getSpectateCooldown()/1000)+cooldown) - (System.currentTimeMillis()/1000);
+            long seconds = ((data.getSpectateCooldown()/1000)+ config.SpectatorSwitchCooldown) - (System.currentTimeMillis()/1000);
             if (seconds > 0) {
                 StringHandler str = new StringHandler(lang.SpectateSwitchCooldown);
                 str.setPrefix(lang.prefix).replaceAll("{cooldown}", Utils.timeLeft(seconds));

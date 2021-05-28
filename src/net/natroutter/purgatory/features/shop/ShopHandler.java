@@ -10,8 +10,10 @@ import net.natroutter.purgatory.features.bancheck.BanData;
 import net.natroutter.purgatory.utilities.Config;
 import net.natroutter.purgatory.utilities.Lang;
 import net.natroutter.purgatory.utilities.Utils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.inventory.ItemStack;
@@ -21,6 +23,7 @@ public class ShopHandler {
     private static final Config config = Purgatory.getCfg();
     private static final Lang lang = Purgatory.getLang();
     private static final LitebansHandler lbh = Purgatory.getLitebans();
+    private static final ConsoleCommandSender console = Bukkit.getConsoleSender();
 
     public static void sell(Player p, Material mat, InventoryAction act) {
         if (act.equals(InventoryAction.PICKUP_HALF)) {
@@ -40,6 +43,9 @@ public class ShopHandler {
                         msg.replaceAll("{item}", materialToName(mat));
                         msg.replaceAll("{price}", Utils.CurrencyFormat(price));
                         msg.send(p);
+
+                        console.sendMessage("§4[Purgatory] §c" + p.getName() + " §7Myi tavaran §c" + materialToName(mat) +  "§7x§c64 §7hintaan §c" + Utils.CurrencyFormat(price));
+
                         return;
                     }
                 }
@@ -60,6 +66,9 @@ public class ShopHandler {
                     msg.replaceAll("{item}", materialToName(mat));
                     msg.replaceAll("{price}", Utils.CurrencyFormat(materialToPrice(mat)));
                     msg.send(p);
+
+                    console.sendMessage("§4[Purgatory] §c" + p.getName() + " §7Myi tavaran §c" + materialToName(mat) +  "§7x§c1 §7hintaan §c" + Utils.CurrencyFormat(materialToPrice(mat)));
+
                     return;
                 }
             }

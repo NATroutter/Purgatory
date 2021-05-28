@@ -12,41 +12,34 @@ import org.bukkit.entity.Player;
 public class AdminHandler {
 
     private static final Lang lang = Purgatory.getLang();
-    private static PlayerData dataStored;
 
-    public static void ToggleAdminMode(Player p) {
+    public static void AdminMode(Player p, boolean state) {AdminMode(p,state,false);}
+    public static void AdminMode(Player p, boolean state, boolean silent) {
         PlayerData data = PlayerDataHandler.queryForID(p.getUniqueId());
         if (data != null) {
-            if (data.getAdminMode()) {
-                data.setAdminMode(false);
-                data.setSpectator(true);
-                StringHandler message = new StringHandler(lang.AdminModeToggled).setPrefix(lang.prefix);
-                message.replaceAll("{status}", lang.statues.disable);
-                message.send(p);
-                SpectatorHandler.spectatorMode(p, true, false);
-            } else {
+            if (state) {
                 data.setAdminMode(true);
-                data.setSpectator(false);
-                SpectatorHandler.clean(p);
-                StringHandler message = new StringHandler(lang.AdminModeToggled).setPrefix(lang.prefix);
-                message.replaceAll("{status}", lang.statues.enable);
-                message.send(p);
-                SpectatorHandler.spectatorMode(p, false, false);
+                if (!silent) {
+                    StringHandler message = new StringHandler(lang.AdminModeToggled).setPrefix(lang.prefix);
+                    message.replaceAll("{status}", lang.statues.enable);
+                    message.send(p);
+                }
+            } else {
+                data.setAdminMode(false);
+                if (!silent) {
+                    StringHandler message = new StringHandler(lang.AdminModeToggled).setPrefix(lang.prefix);
+                    message.replaceAll("{status}", lang.statues.disable);
+                    message.send(p);
+                }
             }
-            dataStored = data;
             PlayerDataHandler.updateForID(data);
         }
     }
 
     public static boolean isAdmin(Player p) {
-        if (dataStored != null) {
-            return dataStored.getAdminMode();
-        } else {
-            PlayerData data = PlayerDataHandler.queryForID(p.getUniqueId());
-            if (data != null) {
-                dataStored = data;
-                return data.getAdminMode();
-            }
+        PlayerData data = PlayerDataHandler.queryForID(p.getUniqueId());
+        if (data != null) {
+            return data.getAdminMode();
         }
         return false;
     }

@@ -77,40 +77,57 @@ public class SpectatorHandler {
         p.getActivePotionEffects().forEach(e->{p.removePotionEffect(e.getType());});
     }
 
-    public static void spectatorMode(Player p, boolean state) {spectatorMode(p, state, true);}
-    public static void spectatorMode(Player p, boolean state, boolean DoAdminCheck) {
-        if (DoAdminCheck) {
-            if (AdminHandler.isAdmin(p)) {
-                p.sendMessage("failed! - " + state);
-                return;
+    public static void safeClean(Player p){
+        p.getActivePotionEffects().forEach(e->{p.removePotionEffect(e.getType());});
+        for (ItemStack item : p.getInventory().getContents()) {
+            if (item == null) {continue;}
+            if (item.getType().equals(Material.AIR)) {continue;}
+            if (item.getItemMeta() == null) {continue;}
+            String name = item.getItemMeta().getDisplayName();
+
+            if (name.equalsIgnoreCase(Items.abilityBox().getDisplayName())) {
+                item.setAmount(0);
+            } else if (name.equalsIgnoreCase(Items.Settings().getDisplayName())) {
+                item.setAmount(0);
+            } else if (name.equalsIgnoreCase(Items.TrackerCompass().getDisplayName())) {
+                item.setAmount(0);
             }
         }
+    }
 
-        if (state) {
-            clean(p);
-            p.setGameMode(GameMode.ADVENTURE);
+    public static void spectatorMode(Player p, boolean state) {
+        PlayerData data = PlayerDataHandler.queryForID(p.getUniqueId());
+        if (data != null) {
+            data.setSpectator(state);
 
-            p.getEquipment().setHelmet(getHelmet(p));
+            if (state) {
+                clean(p);
+                p.setGameMode(GameMode.ADVENTURE);
 
-            if (SettingsHandler.isCompleteVisibility(p)) {
-                hideToAll(p.getPlayer());
+                p.getEquipment().setHelmet(getHelmet(p));
+
+                if (SettingsHandler.isCompleteVisibility(p)) {
+                    hideToAll(p.getPlayer());
+                }
+                if (SettingsHandler.isInvisibility(p)) {
+                    p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0, false, false));
+                }
+                p.setAllowFlight(true);
+                p.setFlying(true);
+                p.getInventory().setItem(0, Items.abilityBox());
+                p.getInventory().setItem(1, Items.Settings());
+                p.getInventory().setItem(2, Items.TrackerCompass());
+            } else {
+                p.setGameMode(GameMode.SURVIVAL);
+                showToAll(p.getPlayer());
+                p.setAllowFlight(false);
+                p.setFlying(false);
             }
-            if (SettingsHandler.isInvisibility(p)) {
-                p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, Integer.MAX_VALUE, 0, false, false));
-            }
-            p.setAllowFlight(true);
-            p.setFlying(true);
-            p.getInventory().setItem(0, Items.abilityBox());
-            p.getInventory().setItem(1, Items.Settings());
-            p.getInventory().setItem(2, Items.TrackerCompass());
-        } else {
-            p.setGameMode(GameMode.SURVIVAL);
-            showToAll(p.getPlayer());
-            p.setAllowFlight(false);
-            p.setFlying(false);
+            p.updateInventory();
+            updateHiddenPlayers();
+            PlayerDataHandler.updateForID(data);
+
         }
-        p.updateInventory();
-        updateHiddenPlayers();
     }
 
     public static void updateHiddenPlayers() {

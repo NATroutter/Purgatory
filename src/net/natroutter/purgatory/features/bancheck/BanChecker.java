@@ -36,6 +36,7 @@ public class BanChecker implements Listener {
             Bans.put(p.getUniqueId(), data);
         } else {
             Bans.remove(p.getUniqueId());
+            p.setDisplayName("§7" + p.getName());
         }
     }
 
